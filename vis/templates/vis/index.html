@@ -1,18 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
 
-{#<html>#}
-{#<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>#}
-{#<script src="{% static "mesh_visualization.js"  %}"></script>#}
-{#</html>#}
-
-Here is a button
-
-<html lang="en">
-<script src="{% static "example.js"  %}"></script>
+<html>
 <body>
+<h1>Here is a cube</h1>
+<div id="render-region">
 
-<button onclick="myFunction()">Click me!</button>
-
+</div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="{% static "mesh_visualization.js"  %}"></script>
 </html>

@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+// import * as THREE from 'three';
 
 const width = window.innerWidth, height = window.innerHeight;
 
@@ -18,7 +18,7 @@ scene.add( mesh );
 const renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setSize( width, height );
 renderer.setAnimationLoop( animation );
-document.body.appendChild( renderer.domElement );
+document.getElementById("render-region").appendChild( renderer.domElement );
 
 // animation
 
