@@ -1,5 +1,3 @@
-// import * as THREE from 'three';
-
 const width = window.innerWidth, height = window.innerHeight;
 
 // init
