@@ -7,6 +7,7 @@ def index(request):
 
 
 def demo(request):
-    template = loader.get_template("bathymetric_visualizer/index.html")
+    # return HttpResponse("Welcome to the demo")
+    template = loader.get_template("vis/index.html")
     context = {}
     return HttpResponse(template.render(context, request))
