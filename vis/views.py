@@ -25,8 +25,8 @@ def mesh_from_file(request, file_name):
 
     template = loader.get_template("vis/from_file.html")
     context = {
-        "flat_vertices": json.dumps(flatten(mesh.vertices)),
-        "flat_faces": json.dumps([int(p) for p in flatten(mesh.faces)]),
+        "flat_vertices": flatten(mesh.vertices),
+        "flat_faces": [int(p) for p in flatten(mesh.faces)],
     }
     return HttpResponse(template.render(context, request))
 

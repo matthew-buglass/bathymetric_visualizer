@@ -17,8 +17,10 @@ function add_data( vertices, face_indices ) {
 	geometry.computeVertexNormals()
 	geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(vertices), 3 )  );
 	geometry.setIndex( face_indices );
+	geometry.computeVertexNormals();
 
-	const material = new THREE.MeshBasicMaterial( { color: 0xffffff })
+	let material = new THREE.MeshBasicMaterial( { color: 0xffffff });
+	material = new THREE.MeshNormalMaterial();
 	mesh = new THREE.Mesh( geometry, material );
 	scene.add( mesh );
 	renderer.setAnimationLoop( animation );
