@@ -19,8 +19,7 @@ function add_data( vertices, face_indices ) {
 	geometry.setIndex( face_indices );
 	geometry.computeVertexNormals();
 
-	let material = new THREE.MeshBasicMaterial( { color: 0xffffff });
-	material = new THREE.MeshNormalMaterial();
+	const material = new THREE.MeshNormalMaterial();
 	mesh = new THREE.Mesh( geometry, material );
 	scene.add( mesh );
 	renderer.render( scene, camera );
