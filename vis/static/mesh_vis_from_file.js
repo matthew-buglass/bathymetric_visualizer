@@ -12,6 +12,12 @@ const renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setSize( width, height );
 document.getElementById("render-region").appendChild( renderer.domElement );
 
+// const controls = new OrbitControls( camera, renderer.domElement );
+// controls.target.set( 0, 0.5, 0 );
+// controls.update();
+// controls.enablePan = false;
+// controls.enableDamping = true;
+
 function add_data( vertices, face_indices ) {
 	const geometry = new THREE.BufferGeometry();
 	geometry.computeVertexNormals()
