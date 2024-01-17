@@ -23,18 +23,5 @@ function add_data( vertices, face_indices ) {
 	material = new THREE.MeshNormalMaterial();
 	mesh = new THREE.Mesh( geometry, material );
 	scene.add( mesh );
-	renderer.setAnimationLoop( animation );
 	renderer.render( scene, camera );
-}
-
-
-// animation
-
-function animation( time ) {
-
-	mesh.rotation.x = time / 2000;
-	mesh.rotation.y = time / 1000;
-
-	renderer.render( scene, camera );
-
 }
