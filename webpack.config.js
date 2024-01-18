@@ -9,10 +9,7 @@ module.exports = {
     path: path.resolve(__dirname, "assets/webpack_bundles/"),
     publicPath: "auto", // necessary for CDNs/S3/blob storages
     filename: "[name]-[contenthash].js",
-      library: {
-        name: 'vis',
-        type: 'var',
-      },
+    library: 'vis',
   },
   plugins: [
     new BundleTracker({ path: __dirname, filename: "webpack-stats.json" }),

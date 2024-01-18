@@ -19,14 +19,8 @@ renderer.setSize( width, height );
 // controls.enablePan = false;
 // controls.enableDamping = true;
 
-export default function addData( vertices, face_indices ) {
-	if (document.getElementById("render-region") == null) {
-		let e = document.createElement('div');
-		e.setAttribute("id", "render-region")
-		document.getElementById("render-region").appendChild( renderer.domElement );
-	} else {
-		document.getElementById("render-region").appendChild( renderer.domElement );
-	}
+export function addData( vertices, face_indices ) {
+	document.getElementById("render-region").appendChild( renderer.domElement );
 
 	const geometry = new THREE.BufferGeometry();
 	geometry.computeVertexNormals()

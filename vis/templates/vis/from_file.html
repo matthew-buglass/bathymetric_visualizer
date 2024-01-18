@@ -7,11 +7,9 @@
     </head>
     <body>
         <h1>Here is not a cube</h1>
-{#        <div id="render-region"></div>#}
+        <div id="render-region"></div>
     </body>
 
-{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>#}
-{#    <script src="{% static "mesh_vis_from_file.js"  %}"></script>#}
     <script>
         window.onload = function () {
             vis.addData( {{ flat_vertices }}, {{ flat_faces }} ) ;
