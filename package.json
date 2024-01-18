@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "webpack-bundle-tracker": "^3.0.1",
+    "webpack-cli": "^5.1.4"
   }
 }
