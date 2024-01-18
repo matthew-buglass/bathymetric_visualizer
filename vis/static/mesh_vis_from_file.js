@@ -12,6 +12,12 @@ const renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setSize( width, height );
 document.getElementById("render-region").appendChild( renderer.domElement );
 
+// const controls = new OrbitControls( camera, renderer.domElement );
+// controls.target.set( 0, 0.5, 0 );
+// controls.update();
+// controls.enablePan = false;
+// controls.enableDamping = true;
+
 function add_data( vertices, face_indices ) {
 	const geometry = new THREE.BufferGeometry();
 	geometry.computeVertexNormals()
@@ -19,22 +25,8 @@ function add_data( vertices, face_indices ) {
 	geometry.setIndex( face_indices );
 	geometry.computeVertexNormals();
 
-	let material = new THREE.MeshBasicMaterial( { color: 0xffffff });
-	material = new THREE.MeshNormalMaterial();
+	const material = new THREE.MeshNormalMaterial();
 	mesh = new THREE.Mesh( geometry, material );
 	scene.add( mesh );
-	renderer.setAnimationLoop( animation );
 	renderer.render( scene, camera );
-}
-
-
-// animation
-
-function animation( time ) {
-
-	mesh.rotation.x = time / 2000;
-	mesh.rotation.y = time / 1000;
-
-	renderer.render( scene, camera );
-
 }
