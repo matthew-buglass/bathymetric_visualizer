@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { ArcballControls } from 'three/addons/controls/ArcballControls.js';
 
 const width = window.innerWidth, height = window.innerHeight;
 
@@ -19,19 +19,11 @@ let mesh = new THREE.Mesh();
 const renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setSize( width, height );
 
-const controls = new OrbitControls( camera, renderer.domElement );
-
-controls.listenToKeyEvents( window )
+const controls = new ArcballControls( camera, renderer.domElement, scene );
+controls.addEventListener( 'change', function () {
+	renderer.render( scene, camera );
+} );
 controls.update();
-controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-controls.dampingFactor = 0.05;
-
-controls.screenSpacePanning = false;
-
-controls.minDistance = 1;
-controls.maxDistance = 500;
-
-// controls.maxPolarAngle = Math.PI / 2;
 
 window.addEventListener( 'resize', onWindowResize );
 animate();
