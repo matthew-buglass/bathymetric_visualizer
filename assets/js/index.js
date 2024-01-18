@@ -1,4 +1,4 @@
-import THREE from "three";
+import * as THREE from 'three';
 
 const width = window.innerWidth, height = window.innerHeight;
 
@@ -12,7 +12,6 @@ let mesh = new THREE.Mesh();
 
 const renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setSize( width, height );
-document.getElementById("render-region").appendChild( renderer.domElement );
 
 // const controls = new OrbitControls( camera, renderer.domElement );
 // controls.target.set( 0, 0.5, 0 );
@@ -20,7 +19,15 @@ document.getElementById("render-region").appendChild( renderer.domElement );
 // controls.enablePan = false;
 // controls.enableDamping = true;
 
-function add_data( vertices, face_indices ) {
+export default function addData( vertices, face_indices ) {
+	if (document.getElementById("render-region") == null) {
+		let e = document.createElement('div');
+		e.setAttribute("id", "render-region")
+		document.getElementById("render-region").appendChild( renderer.domElement );
+	} else {
+		document.getElementById("render-region").appendChild( renderer.domElement );
+	}
+
 	const geometry = new THREE.BufferGeometry();
 	geometry.computeVertexNormals()
 	geometry.setAttribute( 'position', new THREE.BufferAttribute( new Float32Array(vertices), 3 )  );
