@@ -5,17 +5,35 @@ const width = window.innerWidth, height = window.innerHeight;
 
 // init
 
-const camera = new THREE.PerspectiveCamera( 50, width / height, 0.01, 100 );
+const camera = new THREE.PerspectiveCamera( 50, width / height, 0.01, 1000 );
 camera.position.z = 10;
 
 const scene = new THREE.Scene();
+scene.background = new THREE.Color( 0xcccccc );
+
+const axesHelper = new THREE.AxesHelper( 5 );
+scene.add( axesHelper );
+
 let mesh = new THREE.Mesh();
 
 const renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setSize( width, height );
 
 const controls = new OrbitControls( camera, renderer.domElement );
+
+controls.listenToKeyEvents( window )
 controls.update();
+controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+controls.dampingFactor = 0.05;
+
+controls.screenSpacePanning = false;
+
+controls.minDistance = 1;
+controls.maxDistance = 500;
+
+// controls.maxPolarAngle = Math.PI / 2;
+
+window.addEventListener( 'resize', onWindowResize );
 animate();
 
 export function addData( vertices, face_indices ) {
@@ -38,6 +56,8 @@ function onWindowResize() {
 
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
+
+	controls.handleResize();
 
 	renderer.setSize( window.innerWidth, window.innerHeight );
 
