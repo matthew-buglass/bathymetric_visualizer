@@ -9,6 +9,7 @@ class ThreeDimensionalMesh(Delaunay):
 
     @classmethod
     def load_from_file(cls, file_name: str, *args, **kwargs):
+        # Trimesh is imported here because it is only used to read the file
         import trimesh
         mesh = trimesh.load(file_name)
         verts = mesh.vertices.view(np.ndarray)
@@ -27,3 +28,9 @@ class ThreeDimensionalMesh(Delaunay):
 
     def get_flat_faces(self):
         return self.faces.flatten()
+
+    def add_vertices(self, points: np.ndarray, *args, **kwargs):
+        x_and_y = points[:, 0:2]
+        z = points[:, 2]
+        self.z = np.concatenate((self.z, z))
+        self.add_points(x_and_y, *args, **kwargs)
