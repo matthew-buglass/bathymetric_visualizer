@@ -3,17 +3,29 @@ import numpy as np
 
 
 class ThreeDimensionalMesh(Delaunay):
-    def __init__(self, x, y, z, *args, **kwargs):
-        self.z = z
-        super().__init__(points=np.array([x, y]).T, *args, **kwargs)
+    """
+    An abstraction of a 3D mesh that extends the functionality of
+    [Numpy's Delaunay](https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Delaunay.html) class.
+    Some notable differences are that this implementation is assuming a "2.5D" interpretation of the mesh which
+    triangulates via the x and y coordinates then projects into 3D space.
+    """
+    def __init__(self, vertices: np.ndarray, *args, **kwargs):
+        """
+        Creates a triangulated mesh
+        Args:
+            vertices:
+        """
+        # We need to triangulate via the 2D coordinates then extend to the 3D plane later to avoid a quadrahedral
+        # triangulation
+        self.z = vertices[:, 2]
+        super().__init__(points=np.array([vertices[:, 0], vertices[:, 1]]).T, *args, **kwargs)
 
     @classmethod
     def load_from_file(cls, file_name: str, *args, **kwargs):
         # Trimesh is imported here because it is only used to read the file
         import trimesh
         mesh = trimesh.load(file_name)
-        verts = mesh.vertices.view(np.ndarray)
-        return cls(x=verts[:, 0], y=verts[:, 1], z=verts[:, 2], *args, **kwargs)
+        return cls(mesh.vertices.view(np.ndarray), *args, **kwargs)
 
     @property
     def vertices(self):
