@@ -3,3 +3,4 @@ trimesh==4.0.8
 scipy==1.12.0
 django_webpack_loader==3.0.1
 djangorestframework==3.14.0
+django-cors-headers==4.3.1
