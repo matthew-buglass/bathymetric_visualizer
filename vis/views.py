@@ -28,7 +28,7 @@ def mesh_from_file_2(request, file_name):
 
     template = loader.get_template("vis/from_file.html")
     context = {
-        "flat_vertices": list(mesh.get_flat_points()),
+        "flat_vertices": list(mesh.get_flat_vertices()),
         "flat_faces": list(mesh.get_flat_faces()),
     }
     return HttpResponse(template.render(context, request))

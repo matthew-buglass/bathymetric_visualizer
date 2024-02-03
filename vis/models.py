@@ -4,10 +4,8 @@ import numpy as np
 
 class ThreeDimensionalMesh(Delaunay):
     def __init__(self, x, y, z, *args, **kwargs):
-        self.x = x
-        self.y = y
         self.z = z
-        super().__init__(points=np.array([self.x, self.y]).T, *args, **kwargs)
+        super().__init__(points=np.array([x, y]).T, *args, **kwargs)
 
     @classmethod
     def load_from_file(cls, file_name: str, *args, **kwargs):
@@ -17,15 +15,15 @@ class ThreeDimensionalMesh(Delaunay):
         return cls(x=verts[:, 0], y=verts[:, 1], z=verts[:, 2], *args, **kwargs)
 
     @property
-    def points(self):
-        return np.array([self.x, self.y, self.z]).transpose((1, 0))
+    def vertices(self):
+        return np.column_stack((self.points, self.z))
 
     @property
     def faces(self):
         return self.simplices
 
-    def get_flat_points(self):
-        return self.points.flatten()
+    def get_flat_vertices(self):
+        return self.vertices.flatten()
 
     def get_flat_faces(self):
         return self.faces.flatten()
