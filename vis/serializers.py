@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from vis.models import ThreeDimensionalMesh
 
 
 class VertexSerializer(serializers.Serializer):

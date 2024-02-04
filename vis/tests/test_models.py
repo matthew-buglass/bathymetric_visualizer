@@ -114,4 +114,3 @@ class TestThreeDimensionalMesh(SimpleTestCase):
 
         self.assertTupleEqual(expected_flat_faces.shape, actual_flat_faces.shape)
         self.assertTrue(np.equal(expected_flat_faces, actual_flat_faces).all())
-

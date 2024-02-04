@@ -31,4 +31,3 @@ def add_point_to_mesh(request):
     vector = np.asarray([request.data["x"], request.data["y"], request.data["z"]])
 
     return JsonResponse("Success.", status=200)
-
