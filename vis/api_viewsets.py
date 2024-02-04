@@ -28,6 +28,7 @@ def add_point_to_mesh(request):
         return JsonResponse({"text": "Bad Request. Improperly formatted", "errors": errors}, status=400)
 
     # Everything looks good
-    vector = np.asarray([request.data["x"], request.data["y"], request.data["z"]])
+    # Commenting out the vector creation so linting is happy until this is hooked up elsewhere
+    # vector = np.asarray([request.data["x"], request.data["y"], request.data["z"]])
 
     return JsonResponse("Success.", status=200)
