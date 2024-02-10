@@ -31,12 +31,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'webpack_loader',
     'rest_framework',
     'corsheaders',
@@ -73,8 +75,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'bathymetric_visualizer.wsgi.application'
-
+# WSGI_APPLICATION = 'bathymetric_visualizer.wsgi.application'
+ASGI_APPLICATION = "bathymetric_visualizer.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
