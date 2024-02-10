@@ -10,16 +10,21 @@ class ThreeDimensionalMesh(Delaunay):
     Some notable differences are that this implementation is assuming a "2.5D" interpretation of the mesh which
     triangulates via the x and y coordinates then projects into 3D space.
     """
-    def __init__(self, vertices: np.ndarray, *args, **kwargs):
+    def __init__(self, vertices: np.ndarray = None, incremental: bool = False, *args, **kwargs):
         """
         Creates a triangulated mesh
         Args:
             vertices: an array with the shape (,3), where each element is a vertex in 3D space
+            incremental: Allow adding new points incrementally. This takes up some additional resources.
         """
         # We need to triangulate via the 2D coordinates then extend to the 3D plane later to avoid a quadrahedral
         # triangulation
         self.z = vertices[:, 2]
-        super().__init__(points=np.array([vertices[:, 0], vertices[:, 1]]).T, *args, **kwargs)
+        super().__init__(
+            points=np.array([vertices[:, 0], vertices[:, 1]]).T,
+            incremental=incremental,
+            *args,
+            **kwargs)
 
     @classmethod
     def load_from_file(cls, file_name: str, *args, **kwargs):
