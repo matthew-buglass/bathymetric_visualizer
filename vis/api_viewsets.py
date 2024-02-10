@@ -1,8 +1,10 @@
-# import numpy as np
+import numpy as np
 
 from django.http.response import JsonResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import permissions
+
+from .models import ThreeDimensionalMesh
 
 
 @api_view(["PUT"])
@@ -28,7 +30,10 @@ def add_point_to_mesh(request):
         return JsonResponse({"text": "Bad Request. Improperly formatted", "errors": errors}, status=400)
 
     # Everything looks good
-    # Commenting out the vector creation so linting is happy until this is hooked up elsewhere
-    # vector = np.asarray([request.data["x"], request.data["y"], request.data["z"]])
+    vector = np.asarray([request.data["x"], request.data["y"], request.data["z"]])
+    if globals()["GLOBAL_MESH"] is None:
+        globals()["GLOBAL_MESH"] = ThreeDimensionalMesh(vertices=vector, incremental=True)
+    else:
+        globals()["GLOBAL_MESH"].add_vertices(vertices=vector)
 
-    return JsonResponse("Success.", status=200)
+    return JsonResponse(f"Success. Added {np.array2string(vector)} to mesh.", status=200)
