@@ -1,20 +1,22 @@
-import json
-
-from channels.generic.websocket import WebsocketConsumer
-from django.conf import settings
+from channels.generic.websocket import JsonWebsocketConsumer
 
 
-class NewDataPointConsumer(WebsocketConsumer):
+class NewDataPointConsumer(JsonWebsocketConsumer):
     def connect(self):
         self.accept()
 
     def disconnect(self, close_code):
         pass
 
-    def receive(self):
-        data = {
-            "flat_vertices": list(settings.GLOBAL_MESH.get_flat_vertices()),
-            "flat_faces": list(settings.GLOBAL_MESH.get_flat_faces()),
-        }
+    def receive_json(self, content: dict, **kwargs):
+        """
+        Takes the updated list for vertices and faces and sends them along to observers
 
-        self.send(text_data=json.dumps(data))
+        Args:
+            content: a dictionary with the keys "flat_vertices" and "flat_faces" to send to connections
+            **kwargs: Not used
+
+        Returns:
+            None
+        """
+        self.send_json(content=content)
