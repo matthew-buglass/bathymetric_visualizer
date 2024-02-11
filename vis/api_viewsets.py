@@ -13,7 +13,7 @@ from .models import ThreeDimensionalMesh
 # Configure the logging level
 logging.basicConfig()
 logger = getLogger(__name__)
-logger.setLevel(logging.INFO)
+
 
 @api_view(["PUT"])
 @permission_classes((permissions.AllowAny,))
