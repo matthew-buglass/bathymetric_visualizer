@@ -22,8 +22,8 @@ channel_layer = get_channel_layer()
 
 def send_new_global_mesh():
     content = {
-        "flat_vertices": list(settings.GLOBAL_MESH.get_flat_vertices()),
-        "flat_faces": list(settings.GLOBAL_MESH.get_flat_faces()),
+        "flat_vertices": settings.GLOBAL_MESH.get_flat_vertices().tolist(),
+        "flat_faces": settings.GLOBAL_MESH.get_flat_faces().tolist(),
     }
     async_to_sync(channel_layer.group_send)("global", {"type": "new_data", "content": content})
 
