@@ -51,8 +51,8 @@ class TestAddPointToMesh(SimpleTestCase):
         self.assertTrue(np.equal(settings.INITIAL_POINTS, np.asarray([[self.x, self.y, self.z]])).all())
         self.assertEqual(body["message"], "Success. Added [15, 6, 9] to mesh.")
 
-    @override_settings(INITIAL_POINTS=np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [3, 2, 1]]))
-    def test_adding_a_point_does_not_add_point_to_initial_points_when_initial_points_are_4(self):
+    @override_settings(INITIAL_POINTS=np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [9, 7, 12]]))
+    def test_adding_a_point_does_not_add_point_to_initial_points_when_there_are_4_initial_points(self):
         request = self.request_factory.put(self.endpoint, json.dumps(self.body), content_type="application/json")
 
         response = add_point_to_mesh(request)
@@ -62,12 +62,12 @@ class TestAddPointToMesh(SimpleTestCase):
         self.assertTupleEqual(settings.INITIAL_POINTS.shape, (4, 3))
         self.assertTrue(np.equal(
             settings.INITIAL_POINTS,
-            np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [3, 2, 1]])
+            np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [9, 7, 12]])
         ).all())
         self.assertEqual(body["message"], "Success. Added [15, 6, 9] to mesh.")
 
-    @override_settings(INITIAL_POINTS=np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [3, 2, 1], [3, 2, 1]]))
-    def test_adding_a_point_does_not_add_point_to_initial_points_when_initial_points_are_greater_than_4(self):
+    @override_settings(INITIAL_POINTS=np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [9, 7, 12], [13, 7, 9]]))
+    def test_adding_a_point_does_not_add_point_to_initial_points_when_there_are_more_than_4_initial_points(self):
         request = self.request_factory.put(self.endpoint, json.dumps(self.body), content_type="application/json")
 
         response = add_point_to_mesh(request)
@@ -78,7 +78,7 @@ class TestAddPointToMesh(SimpleTestCase):
         self.assertTupleEqual(settings.INITIAL_POINTS.shape, (5, 3))
         self.assertTrue(np.equal(
             settings.INITIAL_POINTS,
-            np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [3, 2, 1], [3, 2, 1]])
+            np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [9, 7, 12], [13, 7, 9]])
         ).all())
         self.assertEqual(body["message"], "Success. Added [15, 6, 9] to mesh.")
 
