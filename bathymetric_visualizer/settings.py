@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
+import logging
 from pathlib import Path
 
 import numpy as np
@@ -28,7 +29,6 @@ SECRET_KEY = 'django-insecure-r9#$7p6qwhmdlpw29#aw=rp=-qcqyb^)dq0ls2l_ter_h$xt)c
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -164,4 +164,4 @@ CORS_ORIGIN_WHITELIST = (
 
 # Global startup mesh for demos. Delete once DB backing is implemented
 GLOBAL_MESH = None
-INITIAL_POINTS = np.asarray([])
+INITIAL_POINTS = None

@@ -1,12 +1,19 @@
+import logging
+
 import numpy as np
 
 from django.conf import settings
 from django.http.response import JsonResponse
+from logging import getLogger
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import permissions
 
 from .models import ThreeDimensionalMesh
 
+# Configure the logging level
+logging.basicConfig()
+logger = getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 @api_view(["PUT"])
 @permission_classes((permissions.AllowAny,))
@@ -36,16 +43,21 @@ def add_point_to_mesh(request):
         vector = np.asarray([[x, y, z]])
         if settings.GLOBAL_MESH is None:
             # We need at least 4 points to build the simplex
-            if len(settings.INITIAL_POINTS[0]) == 0:
+            if settings.INITIAL_POINTS is None:
+                logger.info(f"Initialized INITIAL_POINTS with {str([x, y, z])}")
                 settings.INITIAL_POINTS = vector
-            elif 1 < len(settings.INITIAL_POINTS) < 4:
+            elif len(settings.INITIAL_POINTS) < 4:
+                logger.info(f"Added {str([x, y, z])} to INITIAL_POINTS")
                 settings.INITIAL_POINTS = np.vstack((settings.INITIAL_POINTS, vector))
 
             if len(settings.INITIAL_POINTS) == 4:
+                logger.info(f"Created global mesh.")
                 settings.GLOBAL_MESH = ThreeDimensionalMesh(vertices=settings.INITIAL_POINTS, incremental=True)
         else:
+            logger.info(f"Added {str([x, y, z])} to global mesh.")
             settings.GLOBAL_MESH.add_vertices(vertices=vector)
 
         return JsonResponse({"message": f"Success. Added {str([x, y, z])} to mesh."}, status=200)
-    except Exception:
+    except Exception as e:
+        logger.error(e)
         return JsonResponse({"message": f"An error occurred."}, status=500)

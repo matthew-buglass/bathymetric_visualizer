@@ -34,7 +34,7 @@ class TestAddPointToMesh(SimpleTestCase):
         response = add_point_to_mesh(request)
         self.assertEqual(response.status_code, 405)
 
-    @override_settings(INITIAL_POINTS=np.asarray([[]]))
+    @override_settings(INITIAL_POINTS=None)
     def test_adding_a_point_adds_point_to_initial_points_when_initial_points_are_less_than_4(self):
         request = self.request_factory.put(self.endpoint, json.dumps(self.body), content_type="application/json")
 
