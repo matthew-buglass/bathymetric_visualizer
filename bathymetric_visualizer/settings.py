@@ -165,3 +165,11 @@ CORS_ORIGIN_WHITELIST = (
 # Global startup mesh for demos. Delete once DB backing is implemented
 GLOBAL_MESH = None
 INITIAL_POINTS = None
+
+# Configure channel layers
+# DO NOT RUN IN-MEMORY LAYER IN PRODUCTION
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}

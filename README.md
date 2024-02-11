@@ -7,4 +7,4 @@
 
 [//]: # (![Test Coverage]&#40;https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/matthew-buglass/b88855f7e79729fc1cf9bd4b582012ba/raw/covbadge.json&#41;)
 
-A webapp the dynamically visualizes bathymetry as sample points are being collected. 
+A webapp the dynamically visualizes bathymetry as sample points are being collected.

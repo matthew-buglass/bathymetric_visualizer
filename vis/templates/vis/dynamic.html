@@ -11,18 +11,18 @@
     </body>
 
     <script>
-        const chatSocket = new WebSocket(
+        const meshSocket = new WebSocket(
             'ws://'
             + window.location.host
             + '/dynamic_mesh/'
         );
 
-        chatSocket.onmessage = function(e) {
+        meshSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             console.log(data)
         };
 
-        chatSocket.onclose = function(e) {
+        meshSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
 

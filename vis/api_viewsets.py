@@ -2,6 +2,8 @@ import logging
 
 import numpy as np
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from django.conf import settings
 from django.http.response import JsonResponse
 from logging import getLogger
@@ -13,6 +15,17 @@ from .models import ThreeDimensionalMesh
 # Configure the logging level
 logging.basicConfig()
 logger = getLogger(__name__)
+
+# Get the websocket layer
+channel_layer = get_channel_layer()
+
+
+def send_new_global_mesh():
+    content = {
+        "flat_vertices": list(settings.GLOBAL_MESH.get_flat_vertices()),
+        "flat_faces": list(settings.GLOBAL_MESH.get_flat_faces()),
+    }
+    async_to_sync(channel_layer.group_send)("global", {"type": "new_data", "content": content})
 
 
 @api_view(["PUT"])
@@ -53,9 +66,11 @@ def add_point_to_mesh(request):
             if len(settings.INITIAL_POINTS) == 4:
                 logger.info(f"Created global mesh.")
                 settings.GLOBAL_MESH = ThreeDimensionalMesh(vertices=settings.INITIAL_POINTS, incremental=True)
+                send_new_global_mesh()
         else:
             logger.info(f"Added {str([x, y, z])} to global mesh.")
             settings.GLOBAL_MESH.add_vertices(vertices=vector)
+            send_new_global_mesh()
 
         return JsonResponse({"message": f"Success. Added {str([x, y, z])} to mesh."}, status=200)
     except Exception as e:
