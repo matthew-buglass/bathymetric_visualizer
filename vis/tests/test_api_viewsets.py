@@ -9,11 +9,6 @@ from vis.api_viewsets import add_point_to_mesh
 from vis.models import ThreeDimensionalMesh
 
 
-# Using the standard RequestFactory API to create a form POST request
-# factory = APIRequestFactory()
-# request = factory.post('/notes/', {'title': 'new idea'})
-
-
 class TestAddPointToMesh(SimpleTestCase):
     @classmethod
     def setUpClass(cls):
