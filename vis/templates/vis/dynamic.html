@@ -18,9 +18,8 @@
         );
 
         meshSocket.onmessage = function(e) {
-            console.log(e)
             const data = JSON.parse(e.data);
-            console.log(data)
+            vis.addData( data.flat_vertices, data.flat_faces ) ;
         };
 
         meshSocket.onclose = function(e) {
