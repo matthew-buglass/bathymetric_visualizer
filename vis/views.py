@@ -20,7 +20,7 @@ def mesh_from_file(request, file_name):
 
 
 def mesh_dynamic(request):
-    template = loader.get_template("vis/from_file.html")
+    template = loader.get_template("vis/dynamic.html")
 
     if settings.GLOBAL_MESH is not None:
         context = {
