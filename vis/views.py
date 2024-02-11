@@ -1,9 +1,8 @@
+from django.conf import settings
 from django.http import HttpResponse
 from django.template import loader
 
 from vis.models import ThreeDimensionalMesh
-
-GLOBAL_MESH: ThreeDimensionalMesh = None
 
 
 def mesh_from_file(request, file_name):
@@ -23,10 +22,10 @@ def mesh_from_file(request, file_name):
 def mesh_dynamic(request):
     template = loader.get_template("vis/from_file.html")
 
-    if GLOBAL_MESH is not None:
+    if settings.GLOBAL_MESH is not None:
         context = {
-            "flat_vertices": list(GLOBAL_MESH.get_flat_vertices()),
-            "flat_faces": list(GLOBAL_MESH.get_flat_faces()),
+            "flat_vertices": list(settings.GLOBAL_MESH.get_flat_vertices()),
+            "flat_faces": list(settings.GLOBAL_MESH.get_flat_faces()),
         }
     else:
         context = {
