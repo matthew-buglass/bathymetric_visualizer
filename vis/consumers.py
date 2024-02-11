@@ -1,11 +1,19 @@
+import logging
+
 from channels.generic.websocket import JsonWebsocketConsumer
+
+logging.basicConfig()
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 class NewDataPointConsumer(JsonWebsocketConsumer):
     def connect(self):
+        logger.info(f"{self.__class__.__name__} connection received")
         self.accept()
 
     def disconnect(self, close_code):
+        logger.info(f"{self.__class__.__name__} disconnection {close_code}")
         pass
 
     def receive_json(self, content: dict, **kwargs):
@@ -19,4 +27,5 @@ class NewDataPointConsumer(JsonWebsocketConsumer):
         Returns:
             None
         """
+        logger.info(f"{self.__class__.__name__} received json")
         self.send_json(content=content)
