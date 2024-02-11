@@ -38,7 +38,7 @@ def add_point_to_mesh(request):
             # We need at least 4 points to build the simplex
             if len(settings.INITIAL_POINTS[0]) == 0:
                 settings.INITIAL_POINTS = vector
-            else:
+            elif 1 < len(settings.INITIAL_POINTS) < 4:
                 settings.INITIAL_POINTS = np.vstack((settings.INITIAL_POINTS, vector))
 
             if len(settings.INITIAL_POINTS) == 4:

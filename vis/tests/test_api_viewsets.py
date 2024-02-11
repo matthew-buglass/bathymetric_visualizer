@@ -47,6 +47,7 @@ class TestAddPointToMesh(SimpleTestCase):
         body = json.loads(response.content)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTupleEqual(settings.INITIAL_POINTS.shape, (1, 3))
         self.assertTrue(np.equal(settings.INITIAL_POINTS, np.asarray([[self.x, self.y, self.z]])).all())
         self.assertEqual(body["message"], "Success. Added [15, 6, 9] to mesh.")
 
@@ -58,6 +59,7 @@ class TestAddPointToMesh(SimpleTestCase):
         body = json.loads(response.content)
 
         self.assertEqual(response.status_code, 200)
+        self.assertTupleEqual(settings.INITIAL_POINTS.shape, (4, 3))
         self.assertTrue(np.equal(
             settings.INITIAL_POINTS,
             np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [3, 2, 1]])
@@ -72,6 +74,8 @@ class TestAddPointToMesh(SimpleTestCase):
         body = json.loads(response.content)
 
         self.assertEqual(response.status_code, 200)
+
+        self.assertTupleEqual(settings.INITIAL_POINTS.shape, (5, 3))
         self.assertTrue(np.equal(
             settings.INITIAL_POINTS,
             np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [3, 2, 1], [3, 2, 1]])
@@ -94,19 +98,20 @@ class TestAddPointToMesh(SimpleTestCase):
         self.assertEqual(body["message"], "Success. Added [15, 6, 9] to mesh.")
 
     def test_not_adding_a_required_parameter_returns_a_400(self):
-        request = self.request_factory.put(self.endpoint, json.dumps({"x": 5}), content_type="application/json")
+        request = self.request_factory.put(self.endpoint, json.dumps({"hello": "world"}), content_type="application/json")
 
         response = add_point_to_mesh(request)
         body = json.loads(response.content)
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(body["message"], "Bad Request. Improperly formatted")
-        self.assertContains(body["errors"], "Required parameter 'y' was not received.")
-        self.assertContains(body["errors"], "Required parameter 'z' was not received.")
+        self.assertIn("Required parameter 'x' was not received.", body["errors"])
+        self.assertIn("Required parameter 'y' was not received.", body["errors"])
+        self.assertIn("Required parameter 'z' was not received.", body["errors"])
 
     def test_required_parameter_of_the_wrong_type_returns_a_400(self):
         request = self.request_factory.put(
-            self.endpoint, json.dumps({"x": 5, "y": "hello", "z": [123]}), content_type="application/json"
+            self.endpoint, json.dumps({"x": ["ack!"], "y": "hello", "z": [123]}), content_type="application/json"
         )
 
         response = add_point_to_mesh(request)
@@ -114,8 +119,9 @@ class TestAddPointToMesh(SimpleTestCase):
 
         self.assertEqual(response.status_code, 400)
         self.assertEqual(body["message"], "Bad Request. Improperly formatted")
-        self.assertContains(body["errors"], "Invalid data type for parameter 'y'. A number is required.")
-        self.assertContains(body["errors"], "Invalid data type for parameter 'z'. A number is required.")
+        self.assertIn("Invalid data type for parameter 'x'. A number is required.", body["errors"])
+        self.assertIn("Invalid data type for parameter 'y'. A number is required.", body["errors"])
+        self.assertIn("Invalid data type for parameter 'z'. A number is required.", body["errors"])
 
     def test_non_json_body_returns_a_400(self):
         request = self.request_factory.put(self.endpoint, "x y z", content_type="text/html")
