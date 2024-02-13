@@ -57,14 +57,14 @@ def add_point_to_mesh(request):
         if settings.GLOBAL_MESH is None:
             # We need at least 4 points to build the simplex
             if settings.INITIAL_POINTS is None:
-                logger.info(f"Initialized INITIAL_POINTS with {str([x, y, z])}")
+                logger.info("Initialized INITIAL_POINTS with {str([x, y, z])}")
                 settings.INITIAL_POINTS = vector
             elif len(settings.INITIAL_POINTS) < 4:
                 logger.info(f"Added {str([x, y, z])} to INITIAL_POINTS")
                 settings.INITIAL_POINTS = np.vstack((settings.INITIAL_POINTS, vector))
 
             if len(settings.INITIAL_POINTS) == 4:
-                logger.info(f"Created global mesh.")
+                logger.info("Created global mesh.")
                 settings.GLOBAL_MESH = ThreeDimensionalMesh(vertices=settings.INITIAL_POINTS, incremental=True)
                 send_new_global_mesh()
         else:
@@ -75,4 +75,4 @@ def add_point_to_mesh(request):
         return JsonResponse({"message": f"Success. Added {str([x, y, z])} to mesh."}, status=200)
     except Exception as e:
         logger.error(e)
-        return JsonResponse({"message": f"An error occurred."}, status=500)
+        return JsonResponse({"message": "An error occurred."}, status=500)

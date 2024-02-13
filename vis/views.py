@@ -24,9 +24,9 @@ def mesh_dynamic(request):
 
     if settings.GLOBAL_MESH is not None:
         context = {
-        "flat_vertices": settings.GLOBAL_MESH.get_flat_vertices().tolist(),
-        "flat_faces": settings.GLOBAL_MESH.get_flat_faces().tolist(),
-    }
+            "flat_vertices": settings.GLOBAL_MESH.get_flat_vertices().tolist(),
+            "flat_faces": settings.GLOBAL_MESH.get_flat_faces().tolist(),
+        }
     else:
         context = {
             "flat_vertices": [],
