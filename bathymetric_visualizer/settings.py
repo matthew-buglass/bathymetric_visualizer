@@ -27,20 +27,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
+    'webpack_loader',
+    'rest_framework',
+    'corsheaders',
+    'vis',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'webpack_loader',
-    'rest_framework',
-    'corsheaders',
-    'vis',
 ]
 
 MIDDLEWARE = [
@@ -73,8 +74,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'bathymetric_visualizer.wsgi.application'
-
+# WSGI_APPLICATION = 'bathymetric_visualizer.wsgi.application'
+ASGI_APPLICATION = "bathymetric_visualizer.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -157,3 +158,15 @@ CORS_ORIGIN_ALLOW_ALL = True  # CHANGE THIS TO FALSE IF YOU ARE GOING TO DEPLOY 
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
 )
+
+# Global startup mesh for demos. Delete once DB backing is implemented
+GLOBAL_MESH = None
+INITIAL_POINTS = None
+
+# Configure channel layers
+# DO NOT RUN IN-MEMORY LAYER IN PRODUCTION
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}

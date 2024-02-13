@@ -1,0 +1,33 @@
+{% load render_bundle from webpack_loader %}
+<!DOCTYPE html>
+
+<html>
+    <head>
+        {% render_bundle 'main' %}
+    </head>
+    <body>
+        <h1>Here is not a cube</h1>
+        <div id="render-region"></div>
+    </body>
+
+    <script>
+        const meshSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/dynamic_mesh/'
+        );
+
+        meshSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            vis.addData( data.flat_vertices, data.flat_faces ) ;
+        };
+
+        meshSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        window.onload = function () {
+            vis.addData( {{ flat_vertices }}, {{ flat_faces }} ) ;
+          };
+    </script>
+</html>
