@@ -6,7 +6,6 @@ const camera = new THREE.PerspectiveCamera( 100, width / height, 0.01, 100 );
 camera.position.z = 10;
 
 const scene = new THREE.Scene();
-let mesh = new THREE.Mesh();
 
 const renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setSize( width, height );
@@ -20,7 +19,13 @@ function add_data( vertices, face_indices ) {
 	geometry.computeVertexNormals();
 
 	const material = new THREE.MeshNormalMaterial();
-	mesh = new THREE.Mesh( geometry, material );
+	const mesh = new THREE.Mesh( geometry, material );
+	// Clear the scene
+	console.log(`children in scene = ${scene.children.length}`)
+	while(scene.children.length > 0){
+		console.log("clean scene")
+		scene.remove(scene.children[0]);
+	}
 	scene.add( mesh );
 	renderer.render( scene, camera );
 }

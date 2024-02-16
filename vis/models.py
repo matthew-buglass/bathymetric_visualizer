@@ -21,7 +21,7 @@ class ThreeDimensionalMesh(Delaunay):
         # triangulation
         self.z = vertices[:, 2]
         super().__init__(
-            points=np.array([vertices[:, 0], vertices[:, 1]]).T,
+            points=vertices[:, 0:2],
             incremental=incremental,
             *args,
             **kwargs)
