@@ -72,7 +72,6 @@ def add_point_to_mesh(request):
                 except Exception as e:
                     logger.error(f"Could not create global mesh because of:\n{e}"
                                  f"\nAdding point to Initial vertices and will try again")
-                    settings.INITIAL_POINTS = np.vstack((settings.INITIAL_POINTS, vector))
         else:
             logger.info(f"Added {str([x, y, z])} to global mesh.")
             settings.GLOBAL_MESH.add_vertices(vertices=vector)
