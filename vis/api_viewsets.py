@@ -54,12 +54,6 @@ def add_point_to_mesh(request):
         # Everything looks good
         x, y, z = request.data["x"], request.data["y"], request.data["z"]
         vector = np.asarray([[x, y, z]])
-        if settings.INITIAL_POINTS is None:
-            logger.info("Initialized INITIAL_POINTS with {str([x, y, z])}")
-            settings.INITIAL_POINTS = vector
-        else:
-            logger.info(f"Added {str([x, y, z])} to INITIAL_POINTS")
-            settings.INITIAL_POINTS = np.vstack((settings.INITIAL_POINTS, vector))
 
         if settings.GLOBAL_MESH is None:
             # We need at least 4 points to build the simplex
