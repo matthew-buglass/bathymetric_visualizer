@@ -14,8 +14,6 @@ scene.background = new THREE.Color( 0xcccccc );
 const axesHelper = new THREE.AxesHelper( 5 );
 scene.add( axesHelper );
 
-let mesh = new THREE.Mesh();
-
 const renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setSize( width, height );
 
@@ -26,6 +24,7 @@ controls.addEventListener( 'change', function () {
 controls.update();
 
 window.addEventListener( 'resize', onWindowResize );
+const num_initial_children = scene.children.length
 animate();
 
 export function addData( vertices, face_indices ) {
@@ -38,7 +37,11 @@ export function addData( vertices, face_indices ) {
 	geometry.computeVertexNormals();
 
 	const material = new THREE.MeshNormalMaterial();
-	mesh = new THREE.Mesh( geometry, material );
+	const mesh = new THREE.Mesh( geometry, material );
+	// Clear the scene of all but the initial children
+	while(scene.children.length > num_initial_children){
+		scene.remove(scene.children[num_initial_children]);
+	}
 	scene.add( mesh );
 
 	render()
