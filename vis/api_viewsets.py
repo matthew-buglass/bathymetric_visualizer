@@ -61,36 +61,28 @@ def add_point_to_mesh(request):
             logger.info(f"Added {str([x, y, z])} to INITIAL_POINTS")
             settings.INITIAL_POINTS = np.vstack((settings.INITIAL_POINTS, vector))
 
-        try:
-            settings.GLOBAL_MESH = ThreeDimensionalMesh(vertices=settings.INITIAL_POINTS, incremental=False)
-            logger.info("Created global mesh.")
-            send_new_global_mesh()
-        except Exception as e:
-            logger.error(f"Could not create global mesh because of:\n{e}"
-                         f"\nAdding point to Initial vertices and will try again")
+        if settings.GLOBAL_MESH is None:
+            # We need at least 4 points to build the simplex
+            if settings.INITIAL_POINTS is None:
+                logger.info("Initialized INITIAL_POINTS with {str([x, y, z])}")
+                settings.INITIAL_POINTS = vector
+            else:
+                logger.info(f"Added {str([x, y, z])} to INITIAL_POINTS")
+                settings.INITIAL_POINTS = np.vstack((settings.INITIAL_POINTS, vector))
 
-        # if settings.GLOBAL_MESH is None:
-        #     # We need at least 4 points to build the simplex
-        #     if settings.INITIAL_POINTS is None:
-        #         logger.info("Initialized INITIAL_POINTS with {str([x, y, z])}")
-        #         settings.INITIAL_POINTS = vector
-        #     else:
-        #         logger.info(f"Added {str([x, y, z])} to INITIAL_POINTS")
-        #         settings.INITIAL_POINTS = np.vstack((settings.INITIAL_POINTS, vector))
-        #
-        #     if len(settings.INITIAL_POINTS) >= 4:
-        #         try:
-        #             settings.GLOBAL_MESH = ThreeDimensionalMesh(vertices=settings.INITIAL_POINTS, incremental=True)
-        #             logger.info("Created global mesh.")
-        #             send_new_global_mesh()
-        #         except Exception as e:
-        #             logger.error(f"Could not create global mesh because of:\n{e}"
-        #                          f"\nAdding point to Initial vertices and will try again")
-        #             settings.INITIAL_POINTS = np.vstack((settings.INITIAL_POINTS, vector))
-        # else:
-        #     logger.info(f"Added {str([x, y, z])} to global mesh.")
-        #     settings.GLOBAL_MESH.add_vertices(vertices=vector)
-        #     send_new_global_mesh()
+            if len(settings.INITIAL_POINTS) >= 4:
+                try:
+                    settings.GLOBAL_MESH = ThreeDimensionalMesh(vertices=settings.INITIAL_POINTS, incremental=True)
+                    logger.info("Created global mesh.")
+                    send_new_global_mesh()
+                except Exception as e:
+                    logger.error(f"Could not create global mesh because of:\n{e}"
+                                 f"\nAdding point to Initial vertices and will try again")
+                    settings.INITIAL_POINTS = np.vstack((settings.INITIAL_POINTS, vector))
+        else:
+            logger.info(f"Added {str([x, y, z])} to global mesh.")
+            settings.GLOBAL_MESH.add_vertices(vertices=vector)
+            send_new_global_mesh()
 
         return JsonResponse({"message": f"Success. Added {str([x, y, z])} to mesh."}, status=200)
     except Exception as e:
