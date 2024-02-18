@@ -62,7 +62,8 @@ class TestAddPointToMesh(SimpleTestCase):
         self.assertEqual(body["message"], "Success. Added [15, 6, 9] to mesh.")
 
     @override_settings(INITIAL_POINTS=np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [9, 7, 12]]),
-                       GLOBAL_MESH=ThreeDimensionalMesh(np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [9, 7, 12]])))
+                       GLOBAL_MESH=ThreeDimensionalMesh(np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [9, 7, 12]]),
+                                                        incremental=True))
     def test_adding_a_point_when_global_mesh_exists_does_not_add_point_to_initial_points_when_there_are_4_initial_points(
             self):
         request = self.request_factory.put(self.endpoint, json.dumps(self.body), content_type="application/json")
@@ -83,7 +84,8 @@ class TestAddPointToMesh(SimpleTestCase):
         ).all())
 
     @override_settings(INITIAL_POINTS=np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [9, 7, 12], [13, 7, 9]]),
-                       GLOBAL_MESH=ThreeDimensionalMesh(np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [9, 7, 12], [13, 7, 9]])))
+                       GLOBAL_MESH=ThreeDimensionalMesh(np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [9, 7, 12], [13, 7, 9]]),
+                                                        incremental=True))
     def test_adding_a_point_when_global_mesh_exists_does_not_add_point_to_initial_points_when_there_are_more_than_4_initial_points(self):
         request = self.request_factory.put(self.endpoint, json.dumps(self.body), content_type="application/json")
 
@@ -92,7 +94,7 @@ class TestAddPointToMesh(SimpleTestCase):
 
         self.assertEqual(response.status_code, 200)
 
-        self.assertTupleEqual(settings.INITIAL_POINTS.shape, (4, 3))
+        self.assertTupleEqual(settings.INITIAL_POINTS.shape, (5, 3))
         self.assertTrue(np.equal(
             settings.INITIAL_POINTS,
             np.asarray([[1, 2, 3], [2, 3, 1], [3, 2, 1], [9, 7, 12], [13, 7, 9]])
