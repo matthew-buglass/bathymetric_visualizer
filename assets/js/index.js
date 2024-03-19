@@ -39,12 +39,16 @@ export function addData( vertices, face_indices ) {
 	const material = new THREE.MeshNormalMaterial();
 	const mesh = new THREE.Mesh( geometry, material );
 	// Clear the scene of all but the initial children
-	while(scene.children.length > num_initial_children){
-		scene.remove(scene.children[num_initial_children]);
-	}
+	clear_mesh();
 	scene.add( mesh );
 
 	render()
+}
+
+function clear_mesh() {
+	while(scene.children.length > num_initial_children){
+		scene.remove(scene.children[num_initial_children]);
+	}
 }
 
 function onWindowResize() {
