@@ -2,12 +2,44 @@
 <!DOCTYPE html>
 
 <html>
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+
+        /* Create two equal columns that floats next to each other */
+        .render-region {
+            float: left;
+            width: 80%;
+            height: 90%;
+        }
+        .command-panel {
+            float: left;
+            width: 15%;
+            height: 90%;
+            padding: 10px;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+    </style>
     <head>
         {% render_bundle 'main' %}
     </head>
     <body>
-        <h1>Here is not a cube</h1>
-        <div id="render-region"></div>
+        <div id="header">
+            <h1>Sampled Mesh</h1>
+        </div>
+        <div id="body" class="row">
+            <div id="render-region" class="render-region" style="width: 80%"></div>
+            <div id="command-panel" class="command-panel" style="width: 19%">
+                <h1>Hellow there</h1>
+            </div>
+        </div>
     </body>
 
     <script>

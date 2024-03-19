@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { ArcballControls } from 'three/addons/controls/ArcballControls.js';
 
-const width = window.innerWidth, height = window.innerHeight;
+const width = parent.innerWidth * 0.78, height = parent.innerHeight * 0.9;
 
 // init
 
