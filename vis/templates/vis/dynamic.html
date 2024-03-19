@@ -38,6 +38,9 @@
             <div id="render-region" class="render-region" style="width: 80%"></div>
             <div id="command-panel" class="command-panel" style="width: 19%">
                 <h1>Hellow there</h1>
+                <button onclick="clear_global_mesh()">Clear Mesh</button>
+                <br>
+                <p id="status-message"></p>
             </div>
         </div>
     </body>
@@ -61,5 +64,13 @@
         window.onload = function () {
             vis.addData( {{ flat_vertices }}, {{ flat_faces }} ) ;
           };
+
+        function clear_global_mesh() {
+            fetch("{{ BASE_URL }}/api/mesh/clear/", {method: 'DELETE'})
+                .then(response => {
+                        document.getElementById("status-message").innerText = "mesh cleared"
+                    }
+                )
+        }
     </script>
 </html>

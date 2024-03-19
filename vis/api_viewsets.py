@@ -9,6 +9,7 @@ from django.http.response import JsonResponse
 from logging import getLogger
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import permissions
+from rest_framework.response import Response
 
 from .models import ThreeDimensionalMesh
 
@@ -21,10 +22,16 @@ channel_layer = get_channel_layer()
 
 
 def send_new_global_mesh():
-    content = {
-        "flat_vertices": settings.GLOBAL_MESH.get_flat_vertices().tolist(),
-        "flat_faces": settings.GLOBAL_MESH.get_flat_faces().tolist(),
-    }
+    if settings.GLOBAL_MESH is None:
+        content = {
+            "flat_vertices": [],
+            "flat_faces": [],
+        }
+    else:
+        content = {
+            "flat_vertices": settings.GLOBAL_MESH.get_flat_vertices().tolist(),
+            "flat_faces": settings.GLOBAL_MESH.get_flat_faces().tolist(),
+        }
     async_to_sync(channel_layer.group_send)("global", {"type": "new_data", "content": content})
 
 
@@ -81,3 +88,11 @@ def add_point_to_mesh(request):
     except Exception as e:
         logger.error(e)
         return JsonResponse({"message": "An error occurred."}, status=500)
+
+
+@api_view(["DELETE"])
+@permission_classes((permissions.AllowAny,))
+def clear_mesh(request):
+    settings.GLOBAL_MESH = None
+    send_new_global_mesh()
+    return Response("Mesh cleared", status=200)
