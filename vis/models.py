@@ -1,5 +1,3 @@
-import math
-
 from numpy.typing import NDArray
 from scipy.spatial import Delaunay
 import numpy as np
