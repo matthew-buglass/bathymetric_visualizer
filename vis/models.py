@@ -26,6 +26,9 @@ class ThreeDimensionalMesh(Delaunay):
             *args,
             **kwargs)
 
+        # Showing the density of information
+        self.density_map = np.asarray([[0] * 256] * 256, dtype=np.uint8)
+
     @classmethod
     def load_from_file(cls, file_name: str, *args, **kwargs):
         """

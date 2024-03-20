@@ -39,6 +39,14 @@
             <div id="command-panel" class="command-panel" style="width: 19%">
                 <h1>Hellow there</h1>
                 <button onclick="clear_global_mesh()">Clear Mesh</button>
+                <div>
+                    <input type="range" id="mesh_opacity" name="mesh_opacity" min="0" max="1" step="0.01" value="1">
+                    <label for="mesh_opacity">Mesh Opacity</label>
+                </div>
+                <div>
+                    <input type="range" id="vertex_opacity" name="vertex_opacity" min="0" max="1" step="0.01" value="0">
+                    <label for="vertex_opacity">Vertex Opacity</label>
+                </div>
                 <br>
                 <p id="status-message"></p>
             </div>
@@ -46,6 +54,7 @@
     </body>
 
     <script>
+        // Websockets
         const meshSocket = new WebSocket(
             'ws://'
             + window.location.host
@@ -65,6 +74,7 @@
             vis.addData( {{ flat_vertices }}, {{ flat_faces }} ) ;
           };
 
+        // Button interactions
         function clear_global_mesh() {
             fetch("{{ BASE_URL }}/api/mesh/clear/", {method: 'DELETE'})
                 .then(response => {
@@ -72,5 +82,17 @@
                     }
                 )
         }
+
+        // Object opacity
+        const meshOpacity = document.querySelector("#mesh_opacity");
+        meshOpacity.addEventListener("input", (event) => {
+            vis.setMeshOpacity(event.target.value);
+        });
+
+        const vertexOpacity = document.querySelector("#vertex_opacity");
+        vertexOpacity.addEventListener("input", (event) => {
+            vis.setVertexOpacity(event.target.value);
+        });
+
     </script>
 </html>
