@@ -26,6 +26,18 @@
           display: table;
           clear: both;
         }
+
+        .density_map_filled{
+            background-color: black;
+            width: 1px;
+            height: 1px;
+        }
+
+        .density_map_empty{
+            background-color: white;
+            width: 1px;
+            height: 1px;
+        }
     </style>
     <head>
         {% render_bundle 'main' %}
@@ -37,8 +49,10 @@
         <div id="body" class="row">
             <div id="render-region" class="render-region" style="width: 80%"></div>
             <div id="command-panel" class="command-panel" style="width: 19%">
-                <h1>Hellow there</h1>
+                <h1>Command Pallet</h1>
+                <h3>Mesh Functionality</h3>
                 <button onclick="clear_global_mesh()">Clear Mesh</button>
+                <button onclick="get_density_map()">Update Density Map</button>
                 <div>
                     <input type="range" id="mesh_opacity" name="mesh_opacity" min="0" max="1" step="0.01" value="1">
                     <label for="mesh_opacity">Mesh Opacity</label>
@@ -47,6 +61,8 @@
                     <input type="range" id="vertex_opacity" name="vertex_opacity" min="0" max="1" step="0.01" value="0">
                     <label for="vertex_opacity">Vertex Opacity</label>
                 </div>
+                <h3>Density Map</h3>
+                <table id="density_map" style="border: 1px solid;"></table>
                 <br>
                 <p id="status-message"></p>
             </div>
@@ -63,24 +79,61 @@
 
         meshSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
-            vis.addData( data.flat_vertices, data.flat_faces ) ;
+            vis.addData( data.flat_vertices, data.flat_faces );
         };
 
         meshSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
 
+        // page functionality
+        const emptyDensityRow = Array(64)
+        emptyDensityRow.fill(false)
+        const emptyDensityMap = Array(64)
+        emptyDensityMap.fill(emptyDensityRow)
+
         window.onload = function () {
-            vis.addData( {{ flat_vertices }}, {{ flat_faces }} ) ;
+            vis.addData( {{ flat_vertices }}, {{ flat_faces }} );
+            updateDensityMap( emptyDensityMap );
           };
+
+        function updateDensityMap( densityArray ) {
+            // clear the density map
+            const mapObject = document.querySelector("#density_map");
+            mapObject.innerHTML = "";
+            // set the inner content
+            densityArray.forEach((rowVal, i) => {
+                const rowObj = mapObject.insertRow(i);
+                rowVal.forEach((colVal, j) => {
+                    const cellObj = rowObj.insertCell(j);
+                    if (colVal) {
+                        cellObj.className = "density_map_filled";
+                    } else {
+                        cellObj.className = "density_map_empty";
+                    }
+                });
+            });
+        }
 
         // Button interactions
         function clear_global_mesh() {
-            fetch("{{ BASE_URL }}/api/mesh/clear/", {method: 'DELETE'})
+            fetch("/api/mesh/clear/", {method: 'DELETE'})
                 .then(response => {
                         document.getElementById("status-message").innerText = "mesh cleared"
                     }
                 )
+        }
+
+        function get_density_map() {
+            fetch('api/mehs/densitymap/')
+                .then(response => {
+                    response.json().then(
+                        dataObj => {
+                            console.log(dataObj.message);
+                            updateDensityMap(dataObj.data)
+                        }
+                    )
+                })
         }
 
         // Object opacity

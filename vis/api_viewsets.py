@@ -96,3 +96,19 @@ def clear_mesh(request):
     settings.GLOBAL_MESH = None
     send_new_global_mesh()
     return Response("Mesh cleared", status=200)
+
+
+@api_view(["GET"])
+@permission_classes((permissions.AllowAny,))
+def get_density_map(request):
+    if settings.GLOBAL_MESH is not None:
+        return JsonResponse(
+            {"message": "data enclosed", "data": settings.GLOBAL_MESH.htlm_density_map},
+            status=200
+        )
+    else:
+        map_size = ThreeDimensionalMesh.density_map_size()
+        return JsonResponse(
+            {"message": "no global mesh", "data": [[False] * map_size] * map_size},
+            status=201
+        )
