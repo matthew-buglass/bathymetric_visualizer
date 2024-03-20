@@ -26,6 +26,17 @@ class ThreeDimensionalMesh(Delaunay):
             *args,
             **kwargs)
 
+        # Showing the density of information
+        self.density_map = np.asarray([[False] * self.density_map_size()] * self.density_map_size(), dtype=bool)
+        self.min_x = -10
+        self.max_x = 10
+        self.min_y = -10
+        self.max_y = 10
+
+    @staticmethod
+    def density_map_size() -> int:
+        return 64
+
     @classmethod
     def load_from_file(cls, file_name: str, *args, **kwargs):
         """
@@ -63,6 +74,23 @@ class ThreeDimensionalMesh(Delaunay):
         """
         return self.simplices
 
+    @property
+    def htlm_density_map(self):
+        """
+
+        Returns:
+
+        """
+        size = self.density_map_size()
+        img = np.asarray([[False] * size] * size, dtype=bool)
+
+        for x, y in self.points:
+            x_idx = int((x - self.min_x) / (self.max_x - self.min_x) * (size - 1))
+            y_idx = int((y - self.min_y) / (self.max_y - self.min_y) * (size - 1))
+            img[x_idx][y_idx] = True
+
+        return img.tolist()
+
     def get_flat_vertices(self) -> NDArray:
         """
         The vectorized form of the vertices
@@ -94,3 +122,20 @@ class ThreeDimensionalMesh(Delaunay):
         z = vertices[:, 2]
         self.z = np.concatenate((self.z, z))
         self.add_points(x_and_y, *args, **kwargs)
+        for x, y in x_and_y:
+            self.update_min_and_max(x, y)
+
+    def update_min_and_max(self, x, y):
+        """
+
+        Args:
+            x:
+            y:
+
+        Returns:
+
+        """
+        self.min_x = min(x, self.min_x)
+        self.max_x = max(x, self.max_x)
+        self.min_y = min(y, self.min_y)
+        self.max_y = max(y, self.max_y)
