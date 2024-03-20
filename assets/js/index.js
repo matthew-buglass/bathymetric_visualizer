@@ -42,6 +42,7 @@ export function addData( vertices, face_indices ) {
 	geometry.computeVertexNormals();
 
 	const mesh = new THREE.Mesh( geometry, mesh_material );
+	// set the mesh to be drawn last so it is above the transparent vertices
 	mesh.renderOrder = -1
 	// Clear the scene of all but the initial children
 	clearMesh();
