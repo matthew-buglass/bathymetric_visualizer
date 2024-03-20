@@ -53,6 +53,8 @@
                 <h3>Mesh Functionality</h3>
                 <button onclick="clear_global_mesh()">Clear Mesh</button>
                 <button onclick="get_density_map()">Update Density Map</button>
+                <button onclick="draw_vertices()">Draw vertices</button>
+                <button onclick="removeVertexMarkers()">Delete vertices</button>
                 <div>
                     <input type="range" id="mesh_opacity" name="mesh_opacity" min="0" max="1" step="0.01" value="1">
                     <label for="mesh_opacity">Mesh Opacity</label>
@@ -70,6 +72,8 @@
     </body>
 
     <script>
+        var savedVertices = [];
+
         // Websockets
         const meshSocket = new WebSocket(
             'ws://'
@@ -79,6 +83,7 @@
 
         meshSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
+            savedVertices = data.flat_vertices;
             vis.addData( data.flat_vertices, data.flat_faces );
         };
 
@@ -93,6 +98,7 @@
         emptyDensityMap.fill(emptyDensityRow)
 
         window.onload = function () {
+            savedVertices = {{ flat_vertices }};
             vis.addData( {{ flat_vertices }}, {{ flat_faces }} );
             updateDensityMap( emptyDensityMap );
           };
@@ -134,6 +140,14 @@
                         }
                     )
                 })
+        }
+
+        function draw_vertices() {
+            vis.addVertexMarkers( savedVertices );
+        }
+
+        function removeVertexMarkers() {
+            vis.removeVertexMarkers();
         }
 
         // Object opacity

@@ -48,7 +48,7 @@ export function addData( vertices, face_indices ) {
 	clearMesh();
 	scene.add( mesh );
 
-	addVertexMarkers( vertices );
+	// addVertexMarkers( vertices );
 
 	render()
 }
@@ -59,19 +59,25 @@ function clearMesh() {
 	}
 }
 
-function addVertexMarkers( vertices ) {
+export function addVertexMarkers( vertices ) {
 	// Vertices is a flat list of coordinates in the order [x1, y1, z1, x2, y2, z2, ...]
 	for (let i = 0; i < vertices.length; i += 3) {
 		const x = vertices[i];
 		const y = vertices[i + 1];
 		const z = vertices[i + 2];
 
-		const sphereGeometry = new THREE.SphereGeometry(0.05, 6, 4);
+		const sphereGeometry = new THREE.SphereGeometry(0.25, 6, 4);
 		sphereGeometry.computeVertexNormals();
 		sphereGeometry.translate(x, y, z)
 		const vertex = new THREE.Mesh( sphereGeometry, vertex_material );
 		scene.add( vertex );
 
+	}
+}
+
+export function removeVertexMarkers() {
+	while(scene.children.length > num_initial_children + 1){
+		scene.remove(scene.children[num_initial_children + 1]);
 	}
 }
 
