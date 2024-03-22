@@ -63,6 +63,10 @@
                     <input type="range" id="vertex_opacity" name="vertex_opacity" min="0" max="1" step="0.01" value="0">
                     <label for="vertex_opacity">Vertex Opacity</label>
                 </div>
+                <div>
+                    <input type="range" id="water_opacity" name="water_opacity" min="0" max="1" step="0.01" value="1">
+                    <label for="water_opacity">Water Opacity</label>
+                </div>
                 <h3>Density Map</h3>
                 <table id="density_map" style="border: 1px solid;"></table>
                 <br>
@@ -159,6 +163,11 @@
         const vertexOpacity = document.querySelector("#vertex_opacity");
         vertexOpacity.addEventListener("input", (event) => {
             vis.setVertexOpacity(event.target.value);
+        });
+
+        const waterOpacity = document.querySelector("#water_opacity");
+        waterOpacity.addEventListener("input", (event) => {
+            vis.setWaterOpacity(event.target.value);
         });
 
     </script>

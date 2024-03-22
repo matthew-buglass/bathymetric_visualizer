@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { ArcballControls } from 'three/addons/controls/ArcballControls.js';
+import {STLLoader} from "three/addons";
 
 const width = parent.innerWidth * 0.78, height = parent.innerHeight * 0.9;
 
@@ -22,6 +23,30 @@ controls.addEventListener( 'change', function () {
 	renderer.render( scene, camera );
 } );
 controls.update();
+
+// Add a water level reference
+const waterGeometry = new THREE.PlaneGeometry(10000, 10000)
+const waterMaterial = new THREE.MeshBasicMaterial( { color: 0x87ceeb, transparent: true } );
+const waterMesh = new THREE.Mesh(waterGeometry, waterMaterial)
+scene.add(waterMesh)
+
+// Adding the Benchy
+// let benchy;
+// const benchyMaterial =new THREE.MeshBasicMaterial( { color: 0x000000, transparent: true } );
+// const loader = new STLLoader()
+// loader.load(
+//     'https://drive.google.com/file/d/1RqZAcMEdPp2NuoqkjSRhL4yxQi-TC-8C/view?usp=sharing',
+//     function (geometry) {
+//         benchy = new THREE.Mesh(geometry, benchyMaterial)
+//         scene.add(benchy)
+//     },
+//     (xhr) => {
+//         console.log('loading')
+//     },
+//     (error) => {
+//         console.log(error)
+//     }
+// )
 
 // Materials
 const mesh_material = new THREE.MeshNormalMaterial( { transparent: true } );
@@ -88,6 +113,11 @@ export function setMeshOpacity( value ) {
 
 export function setVertexOpacity( value ) {
 	vertex_material.opacity = value;
+	render();
+}
+
+export function setWaterOpacity( value ) {
+	waterMaterial.opacity = value;
 	render();
 }
 
