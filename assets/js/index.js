@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import { ArcballControls } from 'three/addons/controls/ArcballControls.js';
-import {STLLoader} from "three/addons";
+// import {STLLoader} from "three/addons";
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
+import {BufferGeometryLoader, ObjectLoader} from "three";
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const width = parent.innerWidth * 0.78, height = parent.innerHeight * 0.9;
 
@@ -31,25 +34,27 @@ const waterMesh = new THREE.Mesh(waterGeometry, waterMaterial)
 scene.add(waterMesh)
 
 // Adding the Benchy
-// let benchy;
-// const benchyMaterial =new THREE.MeshBasicMaterial( { color: 0x000000, transparent: true } );
-// const loader = new STLLoader()
-// loader.load(
-//     'https://drive.google.com/file/d/1RqZAcMEdPp2NuoqkjSRhL4yxQi-TC-8C/view?usp=sharing',
-//     function (geometry) {
-//         benchy = new THREE.Mesh(geometry, benchyMaterial)
-//         scene.add(benchy)
-//     },
-//     (xhr) => {
-//         console.log('loading')
-//     },
-//     (error) => {
-//         console.log(error)
-//     }
-// )
+let benchy;
+const benchyMaterial =new THREE.MeshBasicMaterial( { color: 0x000000, transparent: true } );
+const loader = new GLTFLoader()
+loader.load(
+    '/static/models/9m_benchy.gltf',
+    function (geometry) {
+		console.log("in geomatry")
+        benchy = new THREE.Mesh(geometry, benchyMaterial)
+        scene.add(benchy)
+    },
+    (xhr) => {
+        console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+    },
+    (error) => {
+        console.log(error)
+    }
+)
 
-// Materials
-const mesh_material = new THREE.MeshNormalMaterial( { transparent: true } );
+// Materials CD7F32
+// const mesh_material = new THREE.MeshNormalMaterial( { transparent: true } );
+const mesh_material = new THREE.MeshMatcapMaterial( { color: 0xcd7f32, transparent: true } );
 const vertex_material = new THREE.MeshBasicMaterial( { color: 0x000000, transparent: true } );
 setVertexOpacity(0);
 
