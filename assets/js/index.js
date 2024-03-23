@@ -1,16 +1,14 @@
 import * as THREE from 'three';
 import { ArcballControls } from 'three/addons/controls/ArcballControls.js';
-// import {STLLoader} from "three/addons";
-import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
-import {BufferGeometryLoader, ObjectLoader} from "three";
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 const width = parent.innerWidth * 0.78, height = parent.innerHeight * 0.9;
 
 // init
-
 const camera = new THREE.PerspectiveCamera( 50, width / height, 0.01, 1000 );
-camera.position.z = 10;
+camera.lookAt(0, 0, 0);
+camera.position.set(10, 10, 10);
+camera.updateProjectionMatrix();
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color( 0xcccccc );
@@ -22,10 +20,17 @@ const renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setSize( width, height );
 
 const controls = new ArcballControls( camera, renderer.domElement, scene );
+const initialControlState = '{"arcballState":{"cameraFar":1000,"cameraFov":50,"cameraMatrix":{"elements":[-0.9681388942741919,0.25023993639737485,-0.009330360410478357,0,-0.08440571738177859,-0.2910196978208815,0.9529864691345388,0,0.23575995475656714,0.9234108022500503,0.3028691698095068,0,8.067438461652268,31.741413566846084,11.588700413903558,1]},"cameraNear":0.01,"cameraUp":{"x":-0.0844057173817784,"y":-0.2910196978208807,"z":0.9529864691345364},"cameraZoom":1,"gizmoMatrix":{"elements":[2.0199645277949543,0,0,0,0,2.0199645277949543,0,0,0,0,2.0199645277949543,0,-0.18105073280580197,-0.5657864929351921,0.9922737345392729,1]}}}';
 controls.addEventListener( 'change', function () {
 	renderer.render( scene, camera );
 } );
+controls.setStateFromJSON(initialControlState);
 controls.update();
+
+const directionalLight = new THREE.DirectionalLight( 0x404040, 10 );
+directionalLight.position.set(  1, 1, 1 ).normalize();
+directionalLight.lookAt(0, 0, 0)
+scene.add( directionalLight );
 
 // Add a water level reference
 const waterGeometry = new THREE.PlaneGeometry(10000, 10000)
@@ -35,14 +40,15 @@ scene.add(waterMesh)
 
 // Adding the Benchy
 let benchy;
-const benchyMaterial =new THREE.MeshBasicMaterial( { color: 0x000000, transparent: true } );
 const loader = new GLTFLoader()
+let benchyX = 0;
+let benchyY = 0;
 loader.load(
     '/static/models/9m_benchy.gltf',
-    function (geometry) {
-		console.log("in geomatry")
-        benchy = new THREE.Mesh(geometry, benchyMaterial)
-        scene.add(benchy)
+    function ( gltf ) {
+		benchy = gltf.scene;
+		scene.add( benchy );
+		moveBenchyTo( benchyX, benchyY );
     },
     (xhr) => {
         console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
@@ -51,6 +57,7 @@ loader.load(
         console.log(error)
     }
 )
+
 
 // Materials CD7F32
 // const mesh_material = new THREE.MeshNormalMaterial( { transparent: true } );
@@ -78,7 +85,10 @@ export function addData( vertices, face_indices ) {
 	clearMesh();
 	scene.add( mesh );
 
-	// addVertexMarkers( vertices );
+	// // update Benchy's position
+	if (vertices.length > 2) {
+		moveBenchyTo(vertices.length - 3, vertices.length - 2)
+	}
 
 	render()
 }
@@ -124,6 +134,16 @@ export function setVertexOpacity( value ) {
 export function setWaterOpacity( value ) {
 	waterMaterial.opacity = value;
 	render();
+}
+
+function moveBenchyTo( x, y ) {
+	benchyX = x;
+	benchyY = y;
+	if (typeof benchy !== "undefined") {
+		benchy.position.x = benchyX;
+		benchy.position.y = benchyY;
+		scene.add(benchy);
+	}
 }
 
 function onWindowResize() {
