@@ -102,9 +102,10 @@
         const emptyDensityMap = Array(64)
         emptyDensityMap.fill(emptyDensityRow)
 
-        window.onload = function () {
+        window.onload = async function () {
             savedVertices = {{ flat_vertices }};
-            vis.addData( {{ flat_vertices }}, {{ flat_faces }} );
+            await vis.init();
+            {#vis.addData( {{ flat_vertices }}, {{ flat_faces }} );#}
             updateDensityMap( emptyDensityMap );
           };
 
