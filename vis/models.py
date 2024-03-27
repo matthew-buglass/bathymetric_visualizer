@@ -87,6 +87,8 @@ class ThreeDimensionalMesh(Delaunay):
         for x, y in self.points:
             x_idx = int((x - self.min_x) / (self.max_x - self.min_x) * (size - 1))
             y_idx = int((y - self.min_y) / (self.max_y - self.min_y) * (size - 1))
+            x_idx = max(0, min(x_idx, (size - 1)))
+            y_idx = max(0, min(y_idx, (size - 1)))
             img[x_idx][y_idx] = True
 
         return img.tolist()

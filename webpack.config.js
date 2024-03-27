@@ -14,4 +14,11 @@ module.exports = {
   plugins: [
     new BundleTracker({ path: __dirname, filename: "webpack-stats.json" }),
   ],
+  module: {
+        rules: [
+            { test: /\.(gltf)$/,
+              type: "./assets/models"
+            }
+        ]
+    }
 };
