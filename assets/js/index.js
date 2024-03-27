@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { ArcballControls } from 'three/addons/controls/ArcballControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import sceneNode from "three/addons/nodes/accessors/SceneNode";
 
 const width = parent.innerWidth * 0.78;
 const height = parent.innerHeight * 0.9;
@@ -12,8 +13,9 @@ let axesHelper;
 let renderer;
 let controls;
 let directionalLight;
+let num_initial_children;
 
-// Add a water level reference
+// Water level reference
 let waterGeometry;
 let waterMaterial;
 let waterMesh;
@@ -21,8 +23,8 @@ let waterMesh;
 // Materials
 let mesh_material;
 let vertex_material;
-let num_initial_children;
 
+// Benchy
 let benchy;
 let benchyX;
 let benchyY;
@@ -65,6 +67,7 @@ export async function init() {
 	waterGeometry = new THREE.PlaneGeometry(10000, 10000);
 	waterMaterial = new THREE.MeshBasicMaterial( { color: 0x87ceeb, transparent: true } );
 	waterMesh = new THREE.Mesh(waterGeometry, waterMaterial);
+	waterMesh.renderOrder = 1
 	scene.add( waterMesh );
 
 	// Mesh and vertex materials
@@ -92,8 +95,6 @@ export async function load_benchy() {
 		function ( gltf ) {
 			console.log('Benchy loaded')
 			benchy = gltf.scene;
-			scene.add( benchy );
-			moveBenchyTo( benchyX, benchyY );
 			console.log('Benchy rendered');
 		},
 		(xhr) => {
@@ -112,25 +113,22 @@ export function addData( vertices, face_indices ) {
 	geometry.setIndex( face_indices );
 	geometry.computeVertexNormals();
 
-	const mesh = new THREE.Mesh( geometry, mesh_material );
+	// clean the scene
+	removeEntityByName( "surface" );
+	removeVertexMarkers();
+	let sampledSurface = new THREE.Mesh( geometry, mesh_material );
 	// set the mesh to be drawn last so it is above the transparent vertices
-	mesh.renderOrder = -1
-	// Clear the scene of all but the initial children
-	clearMesh();
-	scene.add( mesh );
+	sampledSurface.renderOrder = -1
+	sampledSurface.name = "surface"
+	scene.add( sampledSurface );
 
-	// // update Benchy's position
+	// Update Benchy's position
 	if (vertices.length > 2) {
 		moveBenchyTo(vertices.length - 3, vertices.length - 2)
 	}
 
+	// Render the scene
 	render()
-}
-
-function clearMesh() {
-	while(scene.children.length > num_initial_children){
-		scene.remove(scene.children[num_initial_children]);
-	}
 }
 
 export function addVertexMarkers( vertices ) {
@@ -143,15 +141,22 @@ export function addVertexMarkers( vertices ) {
 		const sphereGeometry = new THREE.SphereGeometry(0.25, 6, 4);
 		sphereGeometry.computeVertexNormals();
 		sphereGeometry.translate(x, y, z)
-		const vertex = new THREE.Mesh( sphereGeometry, vertex_material );
+		let vertex = new THREE.Mesh( sphereGeometry, vertex_material );
+		vertex.renderOrder = 0
+		vertex.name = `vert`
 		scene.add( vertex );
+	}
+}
 
+function removeEntityByName( objectName ) {
+	if ( typeof scene.getObjectByName(objectName) !== 'undefined' ) {
+		scene.remove(scene.getObjectByName(objectName));
 	}
 }
 
 export function removeVertexMarkers() {
-	while(scene.children.length > num_initial_children + 1){
-		scene.remove(scene.children[num_initial_children + 1]);
+	while ( typeof scene.getObjectByName('vert') !== 'undefined' ) {
+		removeEntityByName('vert');
 	}
 }
 

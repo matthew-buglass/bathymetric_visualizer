@@ -105,7 +105,7 @@
         window.onload = async function () {
             savedVertices = {{ flat_vertices }};
             await vis.init();
-            {#vis.addData( {{ flat_vertices }}, {{ flat_faces }} );#}
+            vis.addData( {{ flat_vertices }}, {{ flat_faces }} );
             updateDensityMap( emptyDensityMap );
           };
 
