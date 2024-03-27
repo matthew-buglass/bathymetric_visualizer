@@ -71,8 +71,8 @@ export async function init() {
 	scene.add( waterMesh );
 
 	// Mesh and vertex materials
-	mesh_material = new THREE.MeshPhysicalMaterial( { color: 0x734124, transparent: true } );
-	vertex_material = new THREE.MeshBasicMaterial( { color: 0x021E73, transparent: true } );
+	mesh_material = new THREE.MeshPhysicalMaterial( { color: 0xCFB18C, transparent: true } );
+	vertex_material = new THREE.MeshBasicMaterial( { color: 0x000000, transparent: true } );
 	setVertexOpacity(0);
 
 	// Benchy
@@ -139,6 +139,7 @@ export function addData( vertices, face_indices ) {
 export function addVertexMarkers( vertices ) {
 	// Vertices is a flat list of coordinates in the order [x1, y1, z1, x2, y2, z2, ...]
 	for (let i = 0; i < vertices.length; i += 3) {
+		console.log('adding vert')
 		const x = vertices[i];
 		const y = vertices[i + 1];
 		const z = vertices[i + 2];
