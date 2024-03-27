@@ -58,7 +58,7 @@ export async function init() {
 	controls.update();
 
 	// Lighting
-	directionalLight = new THREE.DirectionalLight( 0x404040, 10 );
+	directionalLight = new THREE.DirectionalLight( 0x404040, 15 );
 	directionalLight.position.set(  1, 1, 1 ).normalize();
 	directionalLight.lookAt(0, 0, 0)
 	scene.add( directionalLight );
@@ -71,8 +71,8 @@ export async function init() {
 	scene.add( waterMesh );
 
 	// Mesh and vertex materials
-	mesh_material = new THREE.MeshMatcapMaterial( { color: 0xcd7f32, transparent: true } );
-	vertex_material = new THREE.MeshBasicMaterial( { color: 0x000000, transparent: true } );
+	mesh_material = new THREE.MeshPhysicalMaterial( { color: 0x734124, transparent: true } );
+	vertex_material = new THREE.MeshBasicMaterial( { color: 0x021E73, transparent: true } );
 	setVertexOpacity(0);
 
 	// Benchy
@@ -95,6 +95,8 @@ export async function load_benchy() {
 		function ( gltf ) {
 			console.log('Benchy loaded')
 			benchy = gltf.scene;
+			benchy.name = 'benchy'
+			moveBenchyTo(benchyX, benchyY)
 			console.log('Benchy rendered');
 		},
 		(xhr) => {
@@ -124,7 +126,10 @@ export function addData( vertices, face_indices ) {
 
 	// Update Benchy's position
 	if (vertices.length > 2) {
-		moveBenchyTo(vertices.length - 3, vertices.length - 2)
+		moveBenchyTo(vertices[vertices.length - 3], vertices[vertices.length - 2]);
+	}
+	else {
+		moveBenchyTo(0, 0);
 	}
 
 	// Render the scene
@@ -149,13 +154,13 @@ export function addVertexMarkers( vertices ) {
 }
 
 function removeEntityByName( objectName ) {
-	if ( typeof scene.getObjectByName(objectName) !== 'undefined' ) {
+	if ( objectWithNameInScene(objectName) ) {
 		scene.remove(scene.getObjectByName(objectName));
 	}
 }
 
 export function removeVertexMarkers() {
-	while ( typeof scene.getObjectByName('vert') !== 'undefined' ) {
+	while ( objectWithNameInScene('vert') ) {
 		removeEntityByName('vert');
 	}
 }
@@ -175,14 +180,20 @@ export function setWaterOpacity( value ) {
 	render();
 }
 
-function moveBenchyTo( x, y ) {
+export function moveBenchyTo( x, y ) {
 	benchyX = x;
 	benchyY = y;
 	if (typeof benchy !== "undefined") {
 		benchy.position.x = benchyX;
 		benchy.position.y = benchyY;
-		scene.add(benchy);
 	}
+	if ( !objectWithNameInScene('benchy') ) {
+		scene.add( benchy );
+	}
+}
+
+function objectWithNameInScene( objectName ) {
+	return typeof scene.getObjectByName(objectName) !== 'undefined'
 }
 
 function onWindowResize() {
