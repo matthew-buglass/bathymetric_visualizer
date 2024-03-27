@@ -65,7 +65,7 @@ export async function init() {
 	waterGeometry = new THREE.PlaneGeometry(10000, 10000);
 	waterMaterial = new THREE.MeshBasicMaterial( { color: 0x87ceeb, transparent: true } );
 	waterMesh = new THREE.Mesh(waterGeometry, waterMaterial);
-	scene.add(waterMesh)
+	scene.add( waterMesh );
 
 	// Mesh and vertex materials
 	mesh_material = new THREE.MeshMatcapMaterial( { color: 0xcd7f32, transparent: true } );
@@ -78,7 +78,7 @@ export async function init() {
 	await load_benchy()
 
 	// Final setup
-	num_initial_children = scene.children.length;
+	num_initial_children = 4;
 	document.getElementById("render-region").appendChild( renderer.domElement );
 	window.addEventListener( 'resize', onWindowResize );
 
