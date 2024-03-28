@@ -21,7 +21,7 @@ logger = getLogger(__name__)
 channel_layer = get_channel_layer()
 
 
-def send_new_global_mesh():
+def send_raw_global_mesh():
     if settings.GLOBAL_MESH is None:
         content = {
             "flat_vertices": [],
@@ -31,6 +31,21 @@ def send_new_global_mesh():
         content = {
             "flat_vertices": settings.GLOBAL_MESH.get_flat_vertices().tolist(),
             "flat_faces": settings.GLOBAL_MESH.get_flat_faces().tolist(),
+        }
+    async_to_sync(channel_layer.group_send)("global", {"type": "new_data", "content": content})
+
+
+def send_smooth_global_mesh():
+    if settings.GLOBAL_MESH is None:
+        content = {
+            "flat_vertices": [],
+            "flat_faces": [],
+        }
+    else:
+        vertices, faces = settings.GLOBAL_MESH.get_smoothed_mesh()
+        content = {
+            "flat_vertices": vertices,
+            "flat_faces": faces,
         }
     async_to_sync(channel_layer.group_send)("global", {"type": "new_data", "content": content})
 
@@ -75,14 +90,14 @@ def add_point_to_mesh(request):
                 try:
                     settings.GLOBAL_MESH = ThreeDimensionalMesh(vertices=settings.INITIAL_POINTS, incremental=True)
                     logger.info("Created global mesh.")
-                    send_new_global_mesh()
+                    send_raw_global_mesh()
                 except Exception as e:
                     logger.error(f"Could not create global mesh because of:\n{e}"
                                  f"\nAdding point to Initial vertices and will try again")
         else:
             logger.info(f"Added {str([x, y, z])} to global mesh.")
             settings.GLOBAL_MESH.add_vertices(vertices=vector)
-            send_new_global_mesh()
+            send_raw_global_mesh()
 
         return JsonResponse({"message": f"Success. Added {str([x, y, z])} to mesh."}, status=200)
     except Exception as e:
@@ -94,7 +109,7 @@ def add_point_to_mesh(request):
 @permission_classes((permissions.AllowAny,))
 def clear_mesh(request):
     settings.GLOBAL_MESH = None
-    send_new_global_mesh()
+    send_raw_global_mesh()
     return Response("Mesh cleared", status=200)
 
 
@@ -112,3 +127,23 @@ def get_density_map(request):
             {"message": "no global mesh", "data": [[False] * map_size] * map_size},
             status=201
         )
+
+
+@api_view(["GET"])
+@permission_classes((permissions.AllowAny,))
+def get_raw_mesh(request):
+    send_raw_global_mesh()
+    return JsonResponse(
+        {"message": "sent raw mesh"},
+        status=200
+    )
+
+
+@api_view(["GET"])
+@permission_classes((permissions.AllowAny,))
+def get_smooth_mesh(request):
+    send_smooth_global_mesh()
+    return JsonResponse(
+        {"message": "sent smoothed mesh"},
+        status=200
+    )
