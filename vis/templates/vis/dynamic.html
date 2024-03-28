@@ -122,6 +122,7 @@
                     <button onclick="removeVertexMarkers()">Delete vertices</button>
                 </div>
                 <br>
+                <h3>Data smoothing</h3>
                 <div style="display: flex">
                     <p>Raw Data &nbsp;&nbsp;</p>
                     <label class="switch">
@@ -131,6 +132,11 @@
                     <p>&nbsp;&nbsp; Smoothed Data</p>
                     <br>
                 </div>
+                <div style="display: flex">
+                    <p>Smoothing Radius (m): &nbsp;</p>
+                    <input id="smooth_factor" type="number" value="2" step="0.5" min="0" style="width: fit-content" />
+                </div>
+                <h3>Opacity</h3>
                 <div>
                     <input type="range" id="mesh_opacity" name="mesh_opacity" min="0" max="1" step="0.01" value="1">
                     <label for="mesh_opacity">Mesh Opacity</label>
@@ -233,12 +239,14 @@
 
         function switchDataType() {
             const smoothedData = document.querySelector("#data_type_switch");
+            const factor = document.querySelector("#smooth_factor").value;
             let endpoint;
             if ( smoothedData.checked ) {
-                endpoint = 'api/mesh/smooth/';
+                endpoint = `api/mesh/smooth/${factor}`;
             } else {
                 endpoint = 'api/mesh/raw/';
             }
+            console.log(endpoint)
             fetch( endpoint )
                 .then(response => {
                     response.json()
@@ -266,6 +274,11 @@
         const waterOpacity = document.querySelector("#water_opacity");
         waterOpacity.addEventListener("input", (event) => {
             vis.setWaterOpacity(event.target.value);
+        });
+
+        const smoothingValue = document.querySelector("#smooth_factor");
+        smoothingValue.addEventListener("input", (event) => {
+            switchDataType();
         });
 
     </script>
