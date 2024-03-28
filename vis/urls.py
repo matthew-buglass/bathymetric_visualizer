@@ -11,6 +11,5 @@ urlpatterns = [
     path('api/mesh/raw/', api_viewsets.get_raw_mesh, name="get density map"),
     path('api/mesh/smooth/', api_viewsets.get_smooth_mesh, name="get density map"),
     # UI routes
-    # path('<path:file_name>/', views.mesh_from_file, name="file"),
     path('', views.mesh_dynamic, name="dynamic"),
 ]
