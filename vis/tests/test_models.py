@@ -114,3 +114,31 @@ class TestThreeDimensionalMesh(SimpleTestCase):
 
         self.assertTupleEqual(expected_flat_faces.shape, actual_flat_faces.shape)
         self.assertTrue(np.equal(expected_flat_faces, actual_flat_faces).all())
+
+    def test_vertex_smoothing_works_correctly(self):
+        # Setup
+        input_points = np.asarray([
+            [-0.25, -0.25, -2],
+            [0, 0, 2],
+            [0.25, 0.25, 0],
+            [0.5, 0.5, 1],
+            [10, 5, 15],
+        ])
+        mesh = ThreeDimensionalMesh(
+            vertices=input_points,
+            incremental=False
+        )
+
+        expected_points = [
+            -0.25, -0.25, 0,
+            0, 0, 0,
+            0.25, 0.25, 1,
+            0.5, 0.5, 0.5,
+            10, 5, 15,
+        ]
+
+        # Execute
+        smoothed_vert = mesh.get_flat_smoothed_vertices(radius=0.5)
+
+        # Assert
+        self.assertListEqual(smoothed_vert.tolist(), expected_points)

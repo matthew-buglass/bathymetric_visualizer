@@ -112,3 +112,49 @@ def get_density_map(request):
             {"message": "no global mesh", "data": [[False] * map_size] * map_size},
             status=201
         )
+
+
+@api_view(["GET"])
+@permission_classes((permissions.AllowAny,))
+def get_raw_mesh(request):
+    if settings.GLOBAL_MESH is None:
+        content = {
+            "message": "No mesh initialized. Not sending raw data.",
+            "flat_vertices": [],
+            "flat_faces": [],
+        }
+        status = 300
+    else:
+        content = {
+            "message": "Sent raw mesh",
+            "flat_vertices": settings.GLOBAL_MESH.get_flat_vertices().tolist(),
+            "flat_faces": settings.GLOBAL_MESH.get_flat_faces().tolist(),
+        }
+        status = 200
+    return JsonResponse(
+        data=content,
+        status=status
+    )
+
+
+@api_view(["GET"])
+@permission_classes((permissions.AllowAny,))
+def get_smooth_mesh(request, factor):
+    if settings.GLOBAL_MESH is None:
+        content = {
+            "message": "No mesh initialized. Not sending smoothed data.",
+            "flat_vertices": [],
+            "flat_faces": [],
+        }
+        status = 300
+    else:
+        content = {
+            "message": "Sent smoothed mesh.",
+            "flat_vertices": settings.GLOBAL_MESH.get_flat_smoothed_vertices(radius=float(factor)).tolist(),
+            "flat_faces": settings.GLOBAL_MESH.get_flat_faces().tolist(),
+        }
+        status = 200
+    return JsonResponse(
+        data=content,
+        status=status
+    )
