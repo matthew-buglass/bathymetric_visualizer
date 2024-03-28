@@ -5,3 +5,4 @@ django_webpack_loader==3.0.1
 djangorestframework==3.14.0
 django-cors-headers==4.3.1
 channels[daphne]==4.0.0
+scikit-learn==1.4.1.post1

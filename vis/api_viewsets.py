@@ -148,11 +148,10 @@ def get_smooth_mesh(request):
         }
         status = 300
     else:
-        vertices, faces = settings.GLOBAL_MESH.get_smoothed_mesh()
         content = {
             "message": "sent smoothed mesh",
-            "flat_vertices": vertices,
-            "flat_faces": faces,
+            "flat_vertices": settings.GLOBAL_MESH.get_smoothed_vertices().tolist(),
+            "flat_faces": settings.GLOBAL_MESH.get_flat_faces().tolist(),
         }
         status = 200
     return JsonResponse(

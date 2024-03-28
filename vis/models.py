@@ -1,5 +1,6 @@
 from numpy.typing import NDArray
 from scipy.spatial import Delaunay
+from sklearn.neighbors import RadiusNeighborsRegressor
 import numpy as np
 
 
@@ -112,6 +113,29 @@ class ThreeDimensionalMesh(Delaunay):
             (ex. 0, 1, and 2) form the indexes of a face
         """
         return self.faces.flatten()
+
+    def get_smoothed_vertices(self, radius: float = 0.5) -> NDArray:
+        """
+        The vectorized form of the vertices, but having been averaged by the heights of their nearest neighbors
+
+        Args:
+            radius: the radius around to point to average the height
+
+        Returns:
+            vertices: an array of shape (1,), where each element is a co-ordinate location. Elements in groups of 3
+            (ex. 0, 1, and 2) form the x, y, and z components of a point.
+        """
+        neighbours = RadiusNeighborsRegressor(radius=radius)
+        neighbours.fit(self.vertices)
+
+        smoothed_verts = np.array([])
+
+        for vert in self.vertices:
+            neigh = neighbours.radius_neighbors(vert)
+            avg_z = np.average([n[2] for n in neigh] + vert[2])
+            smoothed_verts = np.append(smoothed_verts, [vert[0], vert[1], avg_z])
+
+        return smoothed_verts
 
     def add_vertices(self, vertices: np.ndarray, *args, **kwargs) -> None:
         """
