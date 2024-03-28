@@ -114,7 +114,7 @@ class ThreeDimensionalMesh(Delaunay):
         """
         return self.faces.flatten()
 
-    def get_smoothed_vertices(self, radius: float = 0.5) -> NDArray:
+    def get_flat_smoothed_vertices(self, radius: float = 0.5) -> NDArray:
         """
         The vectorized form of the vertices, but having been averaged by the heights of their nearest neighbors
 
