@@ -118,11 +118,11 @@ class TestThreeDimensionalMesh(SimpleTestCase):
     def test_vertex_smoothing_works_correctly(self):
         # Setup
         input_points = np.asarray([
-            [0, 0, 2],
             [-0.25, -0.25, -2],
+            [0, 0, 2],
             [0.25, 0.25, 0],
-            [0.5, 0.5, 2],
-            [10, 10, 15],
+            [0.5, 0.5, 1],
+            [10, 5, 15],
         ])
         mesh = ThreeDimensionalMesh(
             vertices=input_points,
@@ -130,11 +130,11 @@ class TestThreeDimensionalMesh(SimpleTestCase):
         )
 
         expected_points = [
-            0, 0, 0,
             -0.25, -0.25, 0,
-            0.25, 0.25, 0,
-            0.5, 0.5, 1,
-            10, 10, 15,
+            0, 0, 0,
+            0.25, 0.25, 1,
+            0.5, 0.5, 0.5,
+            10, 5, 15,
         ]
 
         # Execute

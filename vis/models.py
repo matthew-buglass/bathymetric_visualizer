@@ -1,6 +1,6 @@
 from numpy.typing import NDArray
 from scipy.spatial import Delaunay
-from sklearn.neighbors import RadiusNeighborsRegressor
+from sklearn.neighbors import NearestNeighbors
 import numpy as np
 
 
@@ -125,15 +125,16 @@ class ThreeDimensionalMesh(Delaunay):
             vertices: an array of shape (1,), where each element is a co-ordinate location. Elements in groups of 3
             (ex. 0, 1, and 2) form the x, y, and z components of a point.
         """
-        neighbours = RadiusNeighborsRegressor(radius=radius)
-        neighbours.fit(self.vertices)
+        neighbours = NearestNeighbors(radius=radius)
+        neighbours.fit(self.points)
 
         smoothed_verts = np.array([])
 
-        for vert in self.vertices:
-            neigh = neighbours.radius_neighbors(vert)
-            avg_z = np.average([n[2] for n in neigh] + vert[2])
-            smoothed_verts = np.append(smoothed_verts, [vert[0], vert[1], avg_z])
+        for i, neigh_idxs in enumerate(neighbours.radius_neighbors(self.points)[1]):
+            vertex = self.vertices[i]
+            neighs = self.vertices.take(neigh_idxs.flatten(), axis=0)
+            averages = np.average(neighs, axis=0)
+            smoothed_verts = np.append(smoothed_verts, [vertex[0], vertex[1], averages[2]])
 
         return smoothed_verts
 
