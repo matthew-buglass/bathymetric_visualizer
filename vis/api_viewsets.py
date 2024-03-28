@@ -119,7 +119,7 @@ def get_density_map(request):
 def get_raw_mesh(request):
     if settings.GLOBAL_MESH is None:
         content = {
-            "message": "no mesh initializes",
+            "message": "no mesh initialized",
             "flat_vertices": [],
             "flat_faces": [],
         }
@@ -142,7 +142,7 @@ def get_raw_mesh(request):
 def get_smooth_mesh(request):
     if settings.GLOBAL_MESH is None:
         content = {
-            "message": "no mesh initializes",
+            "message": "no mesh initialized",
             "flat_vertices": [],
             "flat_faces": [],
         }
