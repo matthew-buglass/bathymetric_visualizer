@@ -142,4 +142,3 @@ class TestThreeDimensionalMesh(SimpleTestCase):
 
         # Assert
         self.assertListEqual(smoothed_vert.tolist(), expected_points)
-
