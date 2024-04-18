@@ -1,0 +1,38 @@
+site_name: Bathymetric Visualizer
+repo_name: Bathymetric Visualizer
+repo_url: https://github.com/matthew-buglass/bathymetric_visualizer
+site_author: Matthew Buglass
+
+docs_dir: docs_source
+site_dir: docs
+
+theme:
+  name: "material"
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: false
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+        generic: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
