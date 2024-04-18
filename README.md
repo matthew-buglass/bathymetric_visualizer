@@ -44,16 +44,68 @@ attempted to tackle and implemented interaction techniques that corresponded to 
 2. How can users tell if errors exist in their data?
 3. Can we guide users to intuitively to correct those errors (through re-sampling)?
 
+The vessel is to 
+scale of a nine-meter research vessel and the blue plane signifies the plane at $z=0$ (i.e. sea-level). All of hte mesh
+objects (other than the vessel) have opacity controls.
+
+![start up](./readme_imgs/startup.png)
+![opacity](./readme_imgs/partial_opacity.png)
+
 ### How do users know if they have sufficient data?
 There are certain structures that require more data than others to represent appropriately. For example, a large, flat,
 sandy bottom does not require as much data to represent than a rocky shoal or underwater cliff. By rendering a 3D model
 of the collected data, users can tell whether parts of their search space require more attention.
 
-### How can users tell if errors exist in their data?
+![initial pass](./readme_imgs/initial_pass.png)
 
+### How can users tell if errors exist in their data?
+As we can see from the screenshots, it is very easy to see where data is erroneous. To assist in confining suspicions
+and to make the mesh easier to interpret, users can take advantage of variable smoothing to help eliminate the 
+erroneous outliers.
+
+![no smooth](./readme_imgs/no_smoothing.png)
+![3.5 smoothing](./readme_imgs/3_5_smoothing.png)
+![6 smoothing](./readme_imgs/6_smoothing.png)
+
+An example of using data smoothing, looking at the differences between more persistent false-bottom errors and 
+transient sensor dropout errors can be seen in this video:
+
+<iframe 
+    width="560" 
+    height="315" 
+    src="https://www.youtube.com/embed/8xbTVBKvgxs?si=Xl4jVkS2M_E3IJji" 
+    title="Dynamic Smoothing" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+</iframe>
 
 ### Can we guide users to intuitively to correct those errors (through re-sampling)?
+Because the webapp accepts data from an API endpoint and dynamically updates, users can continually refine their 
+dataset. Some examples can be seen in these two videos:
 
+<iframe 
+    width="560" 
+    height="315" 
+    src="https://www.youtube.com/embed/s1nFZ7iywR4?si=8NghwWJo0Pfrw6ei" 
+    title="Interaction Technique Overview" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+</iframe>
+
+<iframe 
+    width="560" 
+    height="315" 
+    src="https://www.youtube.com/embed/GHK6BTLukxI?si=2M2H6Mo6_vavR_Kf" 
+    title="Resampling the Search Space" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+</iframe>
 
 ## Known Shortcomings
 - Only one global mesh is tracked at any one time. Furthermore, the app is not database backed, so that mesh is lost
