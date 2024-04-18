@@ -225,6 +225,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Bathymetric Visualizer
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -234,6 +245,85 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the App
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#about-the-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      About the App
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="About the App">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-do-users-know-if-they-have-sufficient-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      How do users know if they have sufficient data?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-can-users-tell-if-errors-exist-in-their-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      How can users tell if errors exist in their data?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-we-guide-users-to-intuitively-to-correct-those-errors-through-re-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Can we guide users to intuitively to correct those errors (through re-sampling)?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-shortcomings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Known Shortcomings
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -513,6 +603,74 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#running-the-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the App
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#about-the-app" class="md-nav__link">
+    <span class="md-ellipsis">
+      About the App
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="About the App">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-do-users-know-if-they-have-sufficient-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      How do users know if they have sufficient data?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-can-users-tell-if-errors-exist-in-their-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      How can users tell if errors exist in their data?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#can-we-guide-users-to-intuitively-to-correct-those-errors-through-re-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Can we guide users to intuitively to correct those errors (through re-sampling)?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-shortcomings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Known Shortcomings
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -531,9 +689,103 @@
 
 <h1 id="bathymetric-visualizer">Bathymetric Visualizer</h1>
 <p><a href="https://www.python.org"><img alt="Python" src="https://img.shields.io/badge/Python-3.10-3776AB.svg" /></a>
-<img alt="Django" src="https://img.shields.io/badge/django-5.0-%23092E20.svg?&amp;logo=django&amp;logoColor=white" />
+<img alt="Django" src="https://img.shields.io/badge/django-5.0.2-%23092E20.svg?&amp;logo=django&amp;logoColor=white" /></p>
+<p><img alt="Node" src="https://img.shields.io/badge/Node.js-16.17%20|%2020.12-339933.svg" />
+<img alt="NPX" src="https://img.shields.io/badge/npx-10.5.0-3776AB.svg" /></p>
+<p><a href="https://github.com/matthew-buglass/bathymetric_visualizer/actions/workflows/python-test.yml"><img alt="Python Tests" src="https://github.com/matthew-buglass/bathymetric_visualizer/actions/workflows/python-test.yml/badge.svg" /></a>
 <a href="https://github.com/matthew-buglass/bathymetric_visualizer/actions/workflows/python-lint.yml"><img alt="Python Lint - Flake8" src="https://github.com/matthew-buglass/bathymetric_visualizer/actions/workflows/python-lint.yml/badge.svg" /></a></p>
-<p>A webapp the dynamically visualizes bathymetry as sample points are being collected.</p>
+<p>A webapp the dynamically visualizes bathymetry as sample points are being collected. Code documentation can be found 
+<a href="https://matthew-buglass.github.io/bathymetric_visualizer/">here</a> (note it is still incomplete). Currently, 
+the visualizer only tracks one global sample mesh, which is lost when the app restarts. Future efforts will include 
+containerization and database backing for easier portability and data persistence. This application's API is compatible
+with the endpoint upload of <a href="https://github.com/matthew-buglass/echo_sounding_simulator">this simulator</a>.</p>
+<h2 id="running-the-app">Running the App</h2>
+<p>There are two provided scripts to prepare your environment to run the application. Running <code>./install.sh</code> will install
+both Python and Node dependencies and running <code>./run.sh</code> will start the app. For convenience that commands are:</p>
+<pre><code class="language-shell"># install dependencies
+pip install -r requirements.txt
+npm install
+
+# build webpack
+npx webpack --mode=development
+
+# run db relations (currently doesn't do anything)
+python manage.py migrate
+
+# Run django
+python manage.py runserver
+</code></pre>
+<h2 id="about-the-app">About the App</h2>
+<p>The purpose of this app is to expose interaction techniques for inferring the quality of remote sensing data. This 
+specific implementation focuses around Bathymetric data, and is themed as such. There are 3 primary use cases that I 
+attempted to tackle and implemented interaction techniques that corresponded to them.</p>
+<ol>
+<li>How do users know if they have sufficient data?</li>
+<li>How can users tell if errors exist in their data?</li>
+<li>Can we guide users to intuitively to correct those errors (through re-sampling)?</li>
+</ol>
+<p>The vessel is to 
+scale of a nine-meter research vessel and the blue plane signifies the plane at <span class="arithmatex">\(z=0\)</span> (i.e. sea-level). All of hte mesh
+objects (other than the vessel) have opacity controls.</p>
+<p><img alt="start up" src="readme_imgs/startup.png" />
+<img alt="opacity" src="readme_imgs/partial_opacity.png" /></p>
+<h3 id="how-do-users-know-if-they-have-sufficient-data">How do users know if they have sufficient data?</h3>
+<p>There are certain structures that require more data than others to represent appropriately. For example, a large, flat,
+sandy bottom does not require as much data to represent than a rocky shoal or underwater cliff. By rendering a 3D model
+of the collected data, users can tell whether parts of their search space require more attention.</p>
+<p><img alt="initial pass" src="readme_imgs/initial_pass.png" /></p>
+<h3 id="how-can-users-tell-if-errors-exist-in-their-data">How can users tell if errors exist in their data?</h3>
+<p>As we can see from the screenshots, it is very easy to see where data is erroneous. To assist in confining suspicions
+and to make the mesh easier to interpret, users can take advantage of variable smoothing to help eliminate the 
+erroneous outliers.</p>
+<p><img alt="no smooth" src="readme_imgs/no_smoothing.png" />
+<img alt="3.5 smoothing" src="readme_imgs/3_5_smoothing.png" />
+<img alt="6 smoothing" src="readme_imgs/6_smoothing.png" /></p>
+<p>An example of using data smoothing, looking at the differences between more persistent false-bottom errors and 
+transient sensor dropout errors can be seen in this video:</p>
+<iframe 
+    width="100%
+    src="https://www.youtube.com/embed/8xbTVBKvgxs?si=Xl4jVkS2M_E3IJji" 
+    title="Dynamic Smoothing" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+</iframe>
+
+<h3 id="can-we-guide-users-to-intuitively-to-correct-those-errors-through-re-sampling">Can we guide users to intuitively to correct those errors (through re-sampling)?</h3>
+<p>Because the webapp accepts data from an API endpoint and dynamically updates, users can continually refine their 
+dataset. Some examples can be seen in these two videos:</p>
+<iframe 
+    width="560" 
+    height="315" 
+    src="https://www.youtube.com/embed/s1nFZ7iywR4?si=8NghwWJo0Pfrw6ei" 
+    title="Interaction Technique Overview" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+</iframe>
+
+<iframe 
+    width="560" 
+    height="315" 
+    src="https://www.youtube.com/embed/GHK6BTLukxI?si=2M2H6Mo6_vavR_Kf" 
+    title="Resampling the Search Space" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+</iframe>
+
+<h2 id="known-shortcomings">Known Shortcomings</h2>
+<ul>
+<li>Only one global mesh is tracked at any one time. Furthermore, the app is not database backed, so that mesh is lost
+    when the app restarts.</li>
+<li>The app assumes coordinates are provided as x,y,z coordinates in meters.</li>
+<li>The app cannot accept GPS coordinates</li>
+<li>There is no centering applied to the data, so 0-centered coordinates need to be supplied to the app.</li>
+</ul>
 
 
 
