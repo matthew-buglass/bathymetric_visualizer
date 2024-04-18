@@ -328,7 +328,6 @@ lerna-debug.log
 Thumbs.db
 
 # JavaScript
-package-lock.json
 webpack-stats.json
 assets/webpack_bundles/*
 
