@@ -331,3 +331,7 @@ Thumbs.db
 package-lock.json
 webpack-stats.json
 assets/webpack_bundles/*
+
+# Docs ignores
+docs_source/index.md
+docs_source/readme_imgs
